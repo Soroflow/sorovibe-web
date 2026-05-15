@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181715" media="(prefers-color-scheme: dark)">
+<title>Privatliv — Sorovibe</title>
+<meta name="description" content="Sorovibe's privatlivspolitik. Hvad vi indsamler, hvordan vi bruger det, og hvilke rettigheder du har.">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#f7f6f3;--card:#fff;--border:#e8e6e1;--text:#1a1917;--muted:#888580;--hint:#c0bcb6;
+  --input-bg:#f2f0ec;--green-bg:#eaf3de;--green-t:#3b6d11;--green-b:#97c459;
+  --teal-bg:#e1f5ee;--teal-t:#085041;
+  --shadow:0 6px 14px rgba(0,0,0,0.06);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#181715;--card:#222018;--border:#2e2c28;--text:#f0ede8;--muted:#7a7670;--hint:#4a4844;
+  --input-bg:#2a2825;--green-bg:#162808;--green-t:#97c459;--green-b:#3b6d11;
+  --teal-bg:#042e1e;--teal-t:#5dcaa5;
+  --shadow:0 6px 14px rgba(0,0,0,0.25);
+}}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{overflow-x:hidden;width:100%;max-width:100%;}
+body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.65;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px;}
+
+.site-nav{padding:18px 0;position:sticky;top:0;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);z-index:20;border-bottom:1px solid transparent;transition:border-color .2s;}
+.site-nav.scrolled{border-bottom-color:var(--border);}
+.nav-row{display:flex;align-items:center;justify-content:space-between;gap:14px;max-width:720px;margin:0 auto;padding:0 20px;}
+.brand{display:flex;align-items:center;text-decoration:none;color:var(--text);}
+.brand-logo{height:30px;width:auto;display:block;color:var(--text);}
+@media(max-width:480px){.brand-logo{height:26px;}}
+.lang-toggle{display:flex;background:var(--input-bg);border:1px solid var(--border);border-radius:999px;padding:3px;}
+.lang-btn{background:none;border:none;padding:5px 12px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-radius:999px;font-family:inherit;transition:all .15s;}
+.lang-btn.on{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+
+.doc{padding:48px 0 32px;}
+.doc h1{font-size:clamp(28px,4.5vw,38px);font-weight:800;letter-spacing:-0.02em;margin-bottom:10px;line-height:1.15;}
+.doc .meta{font-size:13px;color:var(--muted);margin-bottom:36px;}
+.doc h2{font-size:18px;font-weight:700;margin:28px 0 10px;letter-spacing:-0.01em;color:var(--text);}
+.doc h2:first-of-type{margin-top:0;}
+.doc p{font-size:15px;color:var(--text);margin-bottom:14px;}
+.doc a{color:var(--teal-t);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--teal-t) 30%,transparent);transition:border-color .15s;}
+.doc a:hover{border-bottom-color:var(--teal-t);}
+.doc ul{margin:8px 0 14px 18px;}
+.doc li{font-size:15px;color:var(--text);margin-bottom:6px;}
+.doc .lead{font-size:16px;color:var(--muted);margin-bottom:28px;}
+
+.site-foot{padding:40px 0 60px;border-top:1px solid var(--border);margin-top:48px;text-align:center;font-size:13px;color:var(--muted);}
+.site-foot a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s;}
+.site-foot a:hover{border-bottom-color:var(--muted);}
+.foot-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:14px;}
+.foot-copy{font-size:12px;color:var(--hint);}
+
+[data-lang]{display:none;}
+[data-lang].on{display:inline;}
+[data-lang-block]{display:none;}
+[data-lang-block].on{display:block;}
+</style>
+</head>
+<body>
+
+<header class="site-nav" id="siteNav">
+  <div class="nav-row">
+    <a href="/" class="brand" aria-label="Sorovibe">
+      <svg class="brand-logo" viewBox="0 0 620 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>sorovibe</title>
+        <g transform="translate(36 22)" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <path d="M6 38C9 17 28 4 50 4C66 4 80 11 90 23"/>
+          <path d="M91 58C81 73 65 82 47 82C27 82 10 71 5 55"/>
+          <path d="M8 55C24 61 36 55 49 44C63 32 76 34 90 47"/>
+        </g>
+        <text x="166" y="78" fill="currentColor" font-family="'Inter','Geist','Helvetica Neue',Arial,sans-serif" font-size="58" font-weight="400" letter-spacing="-3.2">sorovibe</text>
+      </svg>
+    </a>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button class="lang-btn on" data-set-lang="da">DA</button>
+      <button class="lang-btn" data-set-lang="en">EN</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap doc">
+
+  <!-- DANSK -->
+  <div data-lang-block class="on" data-lang="da">
+    <h1>Privatlivspolitik</h1>
+    <p class="meta">Senest opdateret: 15. maj 2026</p>
+    <p class="lead">Sorovibe respekterer dit privatliv. Denne side beskriver præcis hvad vi indsamler, hvordan vi bruger det, og hvilke rettigheder du har.</p>
+
+    <h2>Hvem vi er</h2>
+    <p>Sorovibe er en uafhængig wellness-paraply ejet og drevet af Soroush Soltani, Danmark. Du kan kontakte os på <a href="mailto:hello@sorovibe.com">hello@sorovibe.com</a>.</p>
+
+    <h2>Hvilke data vi indsamler</h2>
+    <p>Når du tilmelder dig vores email-liste på sorovibe.com, indsamler vi din emailadresse. Det er alt. Vi beder ikke om navn, adresse, alder eller andre personlige oplysninger.</p>
+    <p>Vi bruger ikke cookies til tracking eller analytics. Vi gemmer kun din sprog-præference (DA eller EN) lokalt i din browser via <code>localStorage</code>, så siden husker dit valg næste gang. Det forlader aldrig din enhed.</p>
+
+    <h2>Hvad vi bruger din email til</h2>
+    <p>Din email bruges udelukkende til at sende dig opdateringer om Sorovibe — fx når nye produkter lanceres, eller når der sker noget meningsfuldt med brandet. Vi sælger, deler eller udlejer aldrig din email til tredjepart.</p>
+
+    <h2>Hvor dine data opbevares</h2>
+    <p>Vi bruger <a href="https://resend.com" target="_blank" rel="noopener">Resend</a> til at administrere vores email-liste. Resend opbevarer data i EU (Dublin, Irland) og er GDPR-compliant. Du kan læse Resend's privatlivspolitik <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">her</a>.</p>
+    <p>Selve sitet hostes på <a href="https://vercel.com" target="_blank" rel="noopener">Vercel</a>, der gemmer standard hosting-logs (IP-adresse, browser-type, tidspunkt) i op til 30 dage af sikkerhedsmæssige årsager. Vi tilgår ikke disse logs til markedsføring.</p>
+
+    <h2>Dine rettigheder under GDPR</h2>
+    <p>Du har ret til at:</p>
+    <ul>
+      <li>Få adgang til de data vi har om dig</li>
+      <li>Få dine data slettet permanent</li>
+      <li>Få dine data eksporteret til dig</li>
+      <li>Trække dit samtykke tilbage når som helst</li>
+    </ul>
+    <p>Alle udgående emails fra os indeholder et afmeldings-link i bunden — ét klik er nok for at slette dig fra listen. Du kan også kontakte <a href="mailto:hello@sorovibe.com">hello@sorovibe.com</a> direkte, så svarer vi inden for 7 dage.</p>
+
+    <h2>Ændringer i denne politik</h2>
+    <p>Vi opdaterer denne side hvis vores praksis ændrer sig. Dato for sidste opdatering står øverst. Væsentlige ændringer varsles via email til abonnenter.</p>
+
+    <h2>Kontakt</h2>
+    <p>Spørgsmål om dette? Skriv til <a href="mailto:hello@sorovibe.com">hello@sorovibe.com</a>.</p>
+  </div>
+
+  <!-- ENGLISH -->
+  <div data-lang-block data-lang="en">
+    <h1>Privacy Policy</h1>
+    <p class="meta">Last updated: 15 May 2026</p>
+    <p class="lead">Sorovibe respects your privacy. This page describes exactly what we collect, how we use it, and what rights you have.</p>
+
+    <h2>Who we are</h2>
+    <p>Sorovibe is an independent wellness umbrella owned and operated by Soroush Soltani, Denmark. You can reach us at <a href="mailto:hello@sorovibe.com">hello@sorovibe.com</a>.</p>
+
+    <h2>What data we collect</h2>
+    <p>When you sign up for our email list on sorovibe.com, we collect your email address. That's all. We don't ask for your name, address, age, or any other personal information.</p>
+    <p>We don't use tracking or analytics cookies. We only store your language preference (DA or EN) locally in your browser via <code>localStorage</code>, so the site remembers your choice next time. That never leaves your device.</p>
+
+    <h2>What we use your email for</h2>
+    <p>Your email is used solely to send you updates about Sorovibe — for example when new products launch, or when something meaningful happens with the brand. We never sell, share, or rent your email to third parties.</p>
+
+    <h2>Where your data is stored</h2>
+    <p>We use <a href="https://resend.com" target="_blank" rel="noopener">Resend</a> to manage our email list. Resend stores data in the EU (Dublin, Ireland) and is GDPR-compliant. You can read Resend's privacy policy <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">here</a>.</p>
+    <p>The site itself is hosted on <a href="https://vercel.com" target="_blank" rel="noopener">Vercel</a>, which stores standard hosting logs (IP address, browser type, timestamp) for up to 30 days for security purposes. We don't access these logs for marketing.</p>
+
+    <h2>Your rights under GDPR</h2>
+    <p>You have the right to:</p>
+    <ul>
+      <li>Access the data we have about you</li>
+      <li>Have your data permanently deleted</li>
+      <li>Have your data exported to you</li>
+      <li>Withdraw your consent at any time</li>
+    </ul>
+    <p>All outgoing emails from us include an unsubscribe link at the bottom — one click is enough to remove you from the list. You can also contact <a href="mailto:hello@sorovibe.com">hello@sorovibe.com</a> directly, and we'll respond within 7 days.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>We'll update this page if our practices change. The last update date is shown at the top. Material changes are announced by email to subscribers.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about any of this? Write to <a href="mailto:hello@sorovibe.com">hello@sorovibe.com</a>.</p>
+  </div>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="/">
+        <span data-lang class="on" data-lang-id="da">Forside</span>
+        <span data-lang data-lang-id="en">Home</span>
+      </a>
+      <a href="https://fit.sorovibe.com">
+        <span data-lang class="on" data-lang-id="da">Træningslog</span>
+        <span data-lang data-lang-id="en">Training log</span>
+      </a>
+      <a href="mailto:hello@sorovibe.com">
+        <span data-lang class="on" data-lang-id="da">Kontakt</span>
+        <span data-lang data-lang-id="en">Contact</span>
+      </a>
+    </div>
+    <div class="foot-copy">© 2026 Sorovibe</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'sorovibe_lang';
+  const supported = ['da','en'];
+
+  function getInitialLang(){
+    try{
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if(supported.includes(saved)) return saved;
+    }catch(e){}
+    const browser = (navigator.language || 'da').slice(0,2).toLowerCase();
+    return supported.includes(browser) ? browser : 'da';
+  }
+
+  function setLang(lang){
+    if(!supported.includes(lang)) lang = 'da';
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      const id = el.getAttribute('data-lang-id') || el.getAttribute('data-lang');
+      el.classList.toggle('on', id === lang);
+    });
+    document.querySelectorAll('[data-lang-block]').forEach(el => {
+      el.classList.toggle('on', el.getAttribute('data-lang') === lang);
+    });
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('on', b.getAttribute('data-set-lang') === lang);
+    });
+    try{ localStorage.setItem(STORAGE_KEY, lang); }catch(e){}
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.addEventListener('click', () => setLang(b.getAttribute('data-set-lang')));
+  });
+
+  setLang(getInitialLang());
+
+  const nav = document.getElementById('siteNav');
+  function onScroll(){ nav.classList.toggle('scrolled', window.scrollY > 4); }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+
+</body>
+</html>
