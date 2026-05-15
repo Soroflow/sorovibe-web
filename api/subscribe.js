@@ -1,9 +1,10 @@
 // Vercel Edge Function — modtager email-signups fra sorovibe.com og
-// tilføjer dem til en Resend audience.
+// tilføjer dem til en Resend Segment (den nye Contacts/Segments-model).
 //
 // Påkrævede environment variables på Vercel:
-//   RESEND_API_KEY      — fra https://resend.com/api-keys
-//   RESEND_AUDIENCE_ID  — fra https://resend.com/audiences (klik audience → kopier ID)
+//   RESEND_API_KEY      — fra https://resend.com/api-keys (Full Access scope)
+//   RESEND_SEGMENT_ID   — UUID for den segment der skal modtage signups
+//                          (klik segment på resend.com/audience/segments → URL'en)
 //
 // Frivillig:
 //   ALLOWED_ORIGIN      — fx "https://sorovibe.com" (default: tillader alt)
@@ -62,35 +63,33 @@ export default async function handler(req) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const audienceId = process.env.RESEND_AUDIENCE_ID;
+  const segmentId = process.env.RESEND_SEGMENT_ID;
 
-  if (!apiKey || !audienceId) {
+  if (!apiKey || !segmentId) {
     return jsonResponse({ error: 'server_misconfigured' }, 500, cors);
   }
 
   try {
-    const resp = await fetch(
-      `https://api.resend.com/audiences/${audienceId}/contacts`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          unsubscribed: false,
-          // Resend understøtter ikke tags på contacts endnu, men first_name kan
-          // bruges som lille marker på sproget hvis ønsket. Tomt for nu.
-        }),
-      }
-    );
+    // Create Contact endpoint understøtter at angive segments i body —
+    // én call opretter både kontakten og knytter den til segmentet.
+    const resp = await fetch('https://api.resend.com/contacts', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        unsubscribed: false,
+        segments: [{ id: segmentId }],
+      }),
+    });
 
     if (resp.ok) {
       return jsonResponse({ ok: true, lang }, 200, cors);
     }
 
-    // Resend returnerer 422 / "validation_error" når contact allerede findes —
+    // Resend returnerer typisk 422 hvis contact allerede findes —
     // det skal brugeren ikke straffes for, returnér success.
     const data = await resp.json().catch(() => ({}));
     const msg = (data?.message || '').toLowerCase();
