@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181715" media="(prefers-color-scheme: dark)">
+<title>Sorovibe — Wellness, vane for vane</title>
+<meta name="description" content="Sorovibe bygger rolige, premium wellness-værktøjer. Start med Træningslog — personlig trænings- og makrolog. Mere på vej.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sorovibe.com/">
+<meta property="og:title" content="Sorovibe — Wellness, vane for vane">
+<meta property="og:description" content="Sorovibe bygger rolige, premium wellness-værktøjer. Start med Træningslog. Mere på vej.">
+<meta property="og:locale" content="da_DK">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#f7f6f3;--card:#fff;--border:#e8e6e1;--text:#1a1917;--muted:#888580;--hint:#c0bcb6;
+  --input-bg:#f2f0ec;--green-bg:#eaf3de;--green-t:#3b6d11;--green-b:#97c459;
+  --teal-bg:#e1f5ee;--teal-t:#085041;--amber-bg:#faeeda;--amber-t:#633806;
+  --blue-bg:#e6f1fb;--blue-t:#0c447c;--purple-bg:#eeedfe;--purple-t:#3c3489;
+  --shadow:0 6px 14px rgba(0,0,0,0.06);--shadow-act:0 1px 4px rgba(0,0,0,0.04);
+  --shadow-lg:0 18px 40px rgba(0,0,0,0.08);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#181715;--card:#222018;--border:#2e2c28;--text:#f0ede8;--muted:#7a7670;--hint:#4a4844;
+  --input-bg:#2a2825;--green-bg:#162808;--green-t:#97c459;--green-b:#3b6d11;
+  --teal-bg:#042e1e;--teal-t:#5dcaa5;--amber-bg:#221505;--amber-t:#fac775;
+  --blue-bg:#08182e;--blue-t:#85b7eb;--purple-bg:#141230;--purple-t:#afa9ec;
+  --shadow:0 6px 14px rgba(0,0,0,0.25);--shadow-act:0 1px 4px rgba(0,0,0,0.4);
+  --shadow-lg:0 18px 40px rgba(0,0,0,0.35);
+}}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{overflow-x:hidden;width:100%;max-width:100%;}
+body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px;}
+
+/* Header */
+.site-nav{padding:18px 0;position:sticky;top:0;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);z-index:20;border-bottom:1px solid transparent;transition:border-color .2s;}
+.site-nav.scrolled{border-bottom-color:var(--border);}
+.nav-row{display:flex;align-items:center;justify-content:space-between;gap:14px;}
+.brand{display:flex;align-items:center;text-decoration:none;color:var(--text);}
+.brand-logo{height:30px;width:auto;display:block;color:var(--text);}
+@media(max-width:480px){.brand-logo{height:26px;}}
+.lang-toggle{display:flex;background:var(--input-bg);border:1px solid var(--border);border-radius:999px;padding:3px;}
+.lang-btn{background:none;border:none;padding:5px 12px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-radius:999px;font-family:inherit;transition:all .15s;}
+.lang-btn.on{background:var(--card);color:var(--text);box-shadow:var(--shadow-act);}
+
+/* Hero */
+.hero{padding:60px 0 40px;text-align:center;}
+.hero h1{font-size:clamp(34px,6vw,52px);font-weight:800;line-height:1.08;letter-spacing:-0.025em;margin-bottom:18px;}
+.hero h1 .accent{background:linear-gradient(135deg,var(--teal-t),var(--green-t));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero p.lead{font-size:clamp(16px,2.2vw,19px);color:var(--muted);max-width:560px;margin:0 auto 32px;line-height:1.55;}
+.signup{max-width:440px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:6px;box-shadow:var(--shadow-lg);display:flex;gap:6px;}
+.signup input{flex:1;background:transparent;border:none;padding:13px 16px;font-size:15px;color:var(--text);font-family:inherit;outline:none;min-width:0;}
+.signup input::placeholder{color:var(--hint);}
+.signup button{background:var(--text);color:var(--bg);border:none;border-radius:11px;padding:13px 20px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;flex-shrink:0;transition:transform .15s ease;}
+.signup button:active{transform:scale(.96);}
+.signup button:disabled{opacity:.6;cursor:not-allowed;}
+.signup-note{font-size:12px;color:var(--hint);margin-top:14px;}
+.signup-msg{font-size:13px;margin-top:14px;min-height:18px;}
+.signup-msg.ok{color:var(--green-t);}
+.signup-msg.err{color:#a32d2d;}
+@media(prefers-color-scheme:dark){.signup-msg.err{color:#f09595;}}
+
+/* Section base */
+.section{padding:48px 0;}
+.section-head{margin-bottom:28px;}
+.eyebrow{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal-t);background:var(--teal-bg);padding:5px 11px;border-radius:999px;margin-bottom:12px;}
+.section h2{font-size:clamp(26px,3.8vw,34px);font-weight:700;letter-spacing:-0.02em;margin-bottom:8px;line-height:1.2;}
+.section .sub{font-size:15px;color:var(--muted);max-width:560px;}
+
+/* Product card */
+.product-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:32px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center;}
+@media(max-width:640px){.product-card{grid-template-columns:1fr;padding:24px;}}
+.product-name{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.product-icon{width:30px;height:30px;flex-shrink:0;}
+.product-title{font-size:20px;font-weight:700;letter-spacing:-0.01em;}
+.product-desc{font-size:15px;color:var(--text);margin-bottom:18px;line-height:1.6;}
+.feature-list{list-style:none;margin-bottom:24px;}
+.feature-list li{font-size:14px;color:var(--muted);padding:5px 0 5px 26px;position:relative;}
+.feature-list li::before{content:'';position:absolute;left:0;top:11px;width:14px;height:8px;border-left:2px solid var(--green-t);border-bottom:2px solid var(--green-t);transform:rotate(-45deg);}
+.product-cta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+.btn-primary{background:var(--text);color:var(--bg);border:none;border-radius:12px;padding:13px 22px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s ease;box-shadow:var(--shadow);}
+.btn-primary:active{transform:scale(.96);box-shadow:var(--shadow-act);}
+.btn-secondary{background:var(--input-bg);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;text-decoration:none;display:inline-block;transition:all .15s ease;}
+.btn-secondary:hover{background:var(--border);}
+.early-supporter{font-size:12px;color:var(--muted);margin-top:14px;display:block;}
+.early-supporter a{color:var(--amber-t);text-decoration:none;font-weight:600;border-bottom:1px solid var(--amber-bg);}
+.early-supporter a:hover{border-bottom-color:var(--amber-t);}
+
+/* Phone mockup (visual placeholder for app preview) */
+.phone-mock{background:linear-gradient(135deg,var(--teal-bg),var(--green-bg));border-radius:24px;aspect-ratio:9/16;max-height:340px;width:100%;max-width:200px;margin:0 auto;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);}
+.phone-mock-inner{text-align:center;padding:18px;}
+.phone-mock-check{width:54px;height:54px;margin:0 auto 14px;background:var(--card);border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
+.phone-mock-check svg{width:32px;height:32px;}
+.phone-mock-title{font-size:13px;font-weight:700;color:var(--teal-t);margin-bottom:4px;}
+.phone-mock-sub{font-size:11px;color:var(--muted);}
+
+/* Coming soon grid */
+.soon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.soon-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;position:relative;}
+.soon-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.soon-icon svg{width:20px;height:20px;}
+.soon-icon.kost{background:var(--amber-bg);color:var(--amber-t);}
+.soon-icon.sleep{background:var(--purple-bg);color:var(--purple-t);}
+.soon-icon.mind{background:var(--blue-bg);color:var(--blue-t);}
+.soon-title{font-size:16px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.soon-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--input-bg);color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
+.soon-desc{font-size:13px;color:var(--muted);line-height:1.5;}
+
+/* Story / about */
+.story{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:32px;box-shadow:var(--shadow);}
+@media(max-width:640px){.story{padding:24px;}}
+.story p{font-size:15px;color:var(--text);line-height:1.7;margin-bottom:14px;}
+.story p:last-child{margin-bottom:0;}
+.story p.muted{color:var(--muted);font-size:14px;}
+
+/* Footer */
+.site-foot{padding:40px 0 60px;border-top:1px solid var(--border);margin-top:40px;text-align:center;font-size:13px;color:var(--muted);}
+.site-foot a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s;}
+.site-foot a:hover{border-bottom-color:var(--muted);}
+.foot-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:14px;}
+.foot-copy{font-size:12px;color:var(--hint);}
+
+/* iOS zoom-fix */
+@media(max-width:700px){
+  input,select,textarea{font-size:16px;}
+  .signup input{font-size:16px;}
+}
+
+/* Bilingual visibility */
+[data-lang]{display:none;}
+[data-lang].on{display:inline;}
+[data-lang-block]{display:none;}
+[data-lang-block].on{display:block;}
+[data-lang-list]{display:none;}
+[data-lang-list].on{display:block;}
+</style>
+</head>
+<body>
+
+<!-- Delte SVG-defs til Træningslog-checkmarken (bruges af product-card og phone-mock) -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <linearGradient id="brandBg" x1="0" y1="0" x2="64" y2="64">
+      <stop stop-color="#1a1917"/><stop offset="1" stop-color="#085041"/>
+    </linearGradient>
+    <linearGradient id="brandAccent" x1="20" y1="44" x2="44" y2="24">
+      <stop stop-color="#3b6d11"/><stop offset="1" stop-color="#97c459"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<header class="site-nav" id="siteNav">
+  <div class="wrap nav-row">
+    <a href="/" class="brand" aria-label="Sorovibe">
+      <svg class="brand-logo" viewBox="0 0 620 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>sorovibe</title>
+        <g transform="translate(36 22)" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <path d="M6 38C9 17 28 4 50 4C66 4 80 11 90 23"/>
+          <path d="M91 58C81 73 65 82 47 82C27 82 10 71 5 55"/>
+          <path d="M8 55C24 61 36 55 49 44C63 32 76 34 90 47"/>
+        </g>
+        <text x="166" y="78" fill="currentColor" font-family="'Inter','Geist','Helvetica Neue',Arial,sans-serif" font-size="58" font-weight="400" letter-spacing="-3.2">sorovibe</text>
+      </svg>
+    </a>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button class="lang-btn on" data-set-lang="da">DA</button>
+      <button class="lang-btn" data-set-lang="en">EN</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>
+      <span data-lang-block class="on" data-lang="da">Wellness, <span class="accent">vane for vane</span>.</span>
+      <span data-lang-block data-lang="en">Wellness, <span class="accent">habit by habit</span>.</span>
+    </h1>
+    <p class="lead">
+      <span data-lang class="on" data-lang-id="da">Sorovibe bygger rolige, premium værktøjer der hjælper dig med at skabe holdbare vaner. Vi starter med træning. Mere er på vej.</span>
+      <span data-lang data-lang-id="en">Sorovibe builds calm, premium tools that help you build lasting habits. We're starting with training. More on the way.</span>
+    </p>
+    <form class="signup" id="signupForm" novalidate>
+      <input type="email" id="emailInput" required autocomplete="email"
+        data-placeholder-da="Din email"
+        data-placeholder-en="Your email"
+        placeholder="Din email">
+      <button type="submit" id="signupBtn">
+        <span data-lang class="on" data-lang-id="da">Tilmeld</span>
+        <span data-lang data-lang-id="en">Subscribe</span>
+      </button>
+    </form>
+    <p class="signup-note">
+      <span data-lang class="on" data-lang-id="da">Få besked når nye Sorovibe-produkter lander. Ingen spam — du kan afmelde med ét klik.</span>
+      <span data-lang data-lang-id="en">Get notified when new Sorovibe products launch. No spam — unsubscribe with one click.</span>
+    </p>
+    <p class="signup-msg" id="signupMsg" role="status" aria-live="polite"></p>
+  </section>
+
+  <!-- PRODUCT -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span data-lang class="on" data-lang-id="da">Tilgængelig nu</span>
+        <span data-lang data-lang-id="en">Available now</span>
+      </span>
+      <h2>
+        <span data-lang class="on" data-lang-id="da">Det første produkt: Træningslog</span>
+        <span data-lang data-lang-id="en">First product: Træningslog</span>
+      </h2>
+      <p class="sub">
+        <span data-lang class="on" data-lang-id="da">En personlig trænings- og makrolog der gør det enkelt at se fremgang over tid.</span>
+        <span data-lang data-lang-id="en">A personal training and macro log that makes it simple to see progress over time.</span>
+      </p>
+    </div>
+
+    <div class="product-card">
+      <div>
+        <div class="product-name">
+          <svg class="product-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#brandBg)"/>
+            <path d="M20 34L29 44L44 24" stroke="url(#brandAccent)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+          <span class="product-title">Træningslog</span>
+        </div>
+        <p class="product-desc">
+          <span data-lang-block class="on" data-lang="da">Log dine sæt, makros og kropsmålinger. Se fremgangsdiagrammer, periodiseret træning og automatisk BMR — alt i én rolig PWA der virker offline.</span>
+          <span data-lang-block data-lang="en">Log your sets, macros and body measurements. See progress charts, periodised training and automatic BMR — all in one calm PWA that works offline.</span>
+        </p>
+        <ul class="feature-list" data-lang-list data-lang="da">
+          <li>Periodiseret styrketræning med PR-tracking</li>
+          <li>Makrolog med ringe og kalorie-balance</li>
+          <li>Kropsmålinger og fremgangsdiagrammer</li>
+          <li>Bilingual — dansk og engelsk</li>
+          <li>Virker offline, installerbar som app</li>
+        </ul>
+        <ul class="feature-list" data-lang-list data-lang="en">
+          <li>Periodised strength training with PR tracking</li>
+          <li>Macro log with rings and calorie balance</li>
+          <li>Body measurements and progress charts</li>
+          <li>Bilingual — Danish and English</li>
+          <li>Works offline, installable as an app</li>
+        </ul>
+        <div class="product-cta">
+          <a href="https://fit.sorovibe.com" class="btn-primary">
+            <span data-lang class="on" data-lang-id="da">Prøv gratis →</span>
+            <span data-lang data-lang-id="en">Try it free →</span>
+          </a>
+          <a href="https://fit.sorovibe.com" class="btn-secondary">
+            <span data-lang class="on" data-lang-id="da">Læs mere</span>
+            <span data-lang data-lang-id="en">Learn more</span>
+          </a>
+        </div>
+        <small class="early-supporter">
+          <span data-lang-block class="on" data-lang="da">Vil du støtte projektet? <a href="https://fit.sorovibe.com">De første 100 supportere</a> kan låse appen for livstid for 199 kr.</span>
+          <span data-lang-block data-lang="en">Want to support the project? The <a href="https://fit.sorovibe.com">first 100 supporters</a> can unlock the app for life for 199 DKK.</span>
+        </small>
+      </div>
+      <div class="phone-mock" aria-hidden="true">
+        <div class="phone-mock-inner">
+          <div class="phone-mock-check">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#brandBg)"/>
+              <path d="M20 34L29 44L44 24" stroke="url(#brandAccent)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="phone-mock-title">fit.sorovibe.com</div>
+          <div class="phone-mock-sub">
+            <span data-lang class="on" data-lang-id="da">Træningslog</span>
+            <span data-lang data-lang-id="en">Training log</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMING SOON -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span data-lang class="on" data-lang-id="da">På tegnebrættet</span>
+        <span data-lang data-lang-id="en">In the works</span>
+      </span>
+      <h2>
+        <span data-lang class="on" data-lang-id="da">Mere end bare træning</span>
+        <span data-lang data-lang-id="en">More than just training</span>
+      </h2>
+      <p class="sub">
+        <span data-lang class="on" data-lang-id="da">Sorovibe er en paraply for hele wellness-rejsen — én vane ad gangen, uden støj.</span>
+        <span data-lang data-lang-id="en">Sorovibe is an umbrella for the whole wellness journey — one habit at a time, without the noise.</span>
+      </p>
+    </div>
+    <div class="soon-grid">
+      <div class="soon-card">
+        <div class="soon-icon kost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8 2 4 6 4 12c0 5 4 10 8 10s8-5 8-10c0-6-4-10-8-10z"/><path d="M12 6v6l3 2"/></svg>
+        </div>
+        <div class="soon-title">
+          <span data-lang class="on" data-lang-id="da">Kost</span>
+          <span data-lang data-lang-id="en">Nutrition</span>
+          <span class="soon-badge"><span data-lang class="on" data-lang-id="da">Snart</span><span data-lang data-lang-id="en">Soon</span></span>
+        </div>
+        <p class="soon-desc">
+          <span data-lang class="on" data-lang-id="da">Foto-baseret makro-tracking og enkle måltidsplaner — uden at tælle hver eneste mandel.</span>
+          <span data-lang data-lang-id="en">Photo-based macro tracking and simple meal plans — without counting every almond.</span>
+        </p>
+      </div>
+      <div class="soon-card">
+        <div class="soon-icon sleep">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </div>
+        <div class="soon-title">
+          <span data-lang class="on" data-lang-id="da">Søvn</span>
+          <span data-lang data-lang-id="en">Sleep</span>
+          <span class="soon-badge"><span data-lang class="on" data-lang-id="da">Snart</span><span data-lang data-lang-id="en">Soon</span></span>
+        </div>
+        <p class="soon-desc">
+          <span data-lang class="on" data-lang-id="da">Søvnvaner der faktisk holder, koblet til træning og restitution.</span>
+          <span data-lang data-lang-id="en">Sleep habits that actually stick, tied to training and recovery.</span>
+        </p>
+      </div>
+      <div class="soon-card">
+        <div class="soon-icon mind">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <div class="soon-title">
+          <span data-lang class="on" data-lang-id="da">Mental</span>
+          <span data-lang data-lang-id="en">Mind</span>
+          <span class="soon-badge"><span data-lang class="on" data-lang-id="da">Snart</span><span data-lang data-lang-id="en">Soon</span></span>
+        </div>
+        <p class="soon-desc">
+          <span data-lang class="on" data-lang-id="da">Korte journaling- og refleksions-prompts der passer ind i en travl hverdag.</span>
+          <span data-lang data-lang-id="en">Short journaling and reflection prompts that fit a busy day.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span data-lang class="on" data-lang-id="da">Om Sorovibe</span>
+        <span data-lang data-lang-id="en">About Sorovibe</span>
+      </span>
+      <h2>
+        <span data-lang class="on" data-lang-id="da">Bygget af én person, til folk der gerne vil have ro</span>
+        <span data-lang data-lang-id="en">Built by one person, for people who want calm</span>
+      </h2>
+    </div>
+    <div class="story">
+      <div data-lang-block class="on" data-lang="da">
+        <p>Sorovibe startede fordi de fleste sundhedsapps føles som casinoer — blinkende notifikationer, gamificerede streaks, "premium"-popups hvert tredje skærmbillede.</p>
+        <p>Det er ikke det jeg gerne ville bruge. Sorovibe er det modsatte: rolige værktøjer, ærlig prissætning, og en lille linje produkter der hænger sammen.</p>
+        <p class="muted">— Soroush, sololaver bag Sorovibe</p>
+      </div>
+      <div data-lang-block data-lang="en">
+        <p>Sorovibe started because most health apps feel like casinos — flashing notifications, gamified streaks, "premium" popups every third screen.</p>
+        <p>That's not what I wanted to use. Sorovibe is the opposite: calm tools, honest pricing, and a small product line that fits together.</p>
+        <p class="muted">— Soroush, solo founder of Sorovibe</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="https://fit.sorovibe.com">
+        <span data-lang class="on" data-lang-id="da">Træningslog</span>
+        <span data-lang data-lang-id="en">Training log</span>
+      </a>
+      <a href="mailto:hej@sorovibe.com">
+        <span data-lang class="on" data-lang-id="da">Kontakt</span>
+        <span data-lang data-lang-id="en">Contact</span>
+      </a>
+      <a href="https://fit.sorovibe.com/privacy.html">
+        <span data-lang class="on" data-lang-id="da">Privatliv</span>
+        <span data-lang data-lang-id="en">Privacy</span>
+      </a>
+    </div>
+    <div class="foot-copy">© 2026 Sorovibe</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'sorovibe_lang';
+  const supported = ['da','en'];
+
+  function getInitialLang(){
+    try{
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if(supported.includes(saved)) return saved;
+    }catch(e){}
+    const browser = (navigator.language || 'da').slice(0,2).toLowerCase();
+    return supported.includes(browser) ? browser : 'da';
+  }
+
+  function setLang(lang){
+    if(!supported.includes(lang)) lang = 'da';
+    document.documentElement.lang = lang;
+
+    // Toggle all bilingual elements
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      const id = el.getAttribute('data-lang-id') || el.getAttribute('data-lang');
+      el.classList.toggle('on', id === lang);
+    });
+    document.querySelectorAll('[data-lang-block]').forEach(el => {
+      el.classList.toggle('on', el.getAttribute('data-lang') === lang);
+    });
+    document.querySelectorAll('[data-lang-list]').forEach(el => {
+      el.classList.toggle('on', el.getAttribute('data-lang') === lang);
+    });
+
+    // Lang toggle buttons
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('on', b.getAttribute('data-set-lang') === lang);
+    });
+
+    // Email placeholder
+    const emailInput = document.getElementById('emailInput');
+    if(emailInput){
+      emailInput.placeholder = emailInput.getAttribute('data-placeholder-' + lang) || 'Email';
+    }
+
+    // OG meta locale
+    const ogLocale = document.querySelector('meta[property="og:locale"]');
+    if(ogLocale) ogLocale.setAttribute('content', lang === 'da' ? 'da_DK' : 'en_US');
+
+    try{ localStorage.setItem(STORAGE_KEY, lang); }catch(e){}
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.addEventListener('click', () => setLang(b.getAttribute('data-set-lang')));
+  });
+
+  setLang(getInitialLang());
+
+  // Sticky nav border on scroll
+  const nav = document.getElementById('siteNav');
+  function onScroll(){ nav.classList.toggle('scrolled', window.scrollY > 4); }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // Email signup
+  const form = document.getElementById('signupForm');
+  const msg = document.getElementById('signupMsg');
+  const btn = document.getElementById('signupBtn');
+  const input = document.getElementById('emailInput');
+
+  function tt(da, en){
+    return document.documentElement.lang === 'en' ? en : da;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = input.value.trim();
+    msg.className = 'signup-msg';
+    msg.textContent = '';
+
+    if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      msg.classList.add('err');
+      msg.textContent = tt('Indtast en gyldig email.', 'Please enter a valid email.');
+      return;
+    }
+
+    btn.disabled = true;
+    const originalLabel = btn.innerHTML;
+    btn.innerHTML = tt('Sender…', 'Sending…');
+
+    try{
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email, lang: document.documentElement.lang })
+      });
+      if(!res.ok){
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'subscribe_failed');
+      }
+      msg.classList.add('ok');
+      msg.textContent = tt('Tak! Du er på listen.', 'Thanks! You\'re on the list.');
+      input.value = '';
+    }catch(err){
+      msg.classList.add('err');
+      msg.textContent = tt(
+        'Noget gik galt. Prøv igen om lidt.',
+        'Something went wrong. Try again in a moment.'
+      );
+    }finally{
+      btn.disabled = false;
+      btn.innerHTML = originalLabel;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

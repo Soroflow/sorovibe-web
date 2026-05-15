@@ -1,0 +1,9 @@
+<svg viewBox="0 0 620 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sorovibe">
+  <title>sorovibe</title>
+  <g transform="translate(36 22)" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M6 38C9 17 28 4 50 4C66 4 80 11 90 23"/>
+    <path d="M91 58C81 73 65 82 47 82C27 82 10 71 5 55"/>
+    <path d="M8 55C24 61 36 55 49 44C63 32 76 34 90 47"/>
+  </g>
+  <text x="166" y="78" fill="currentColor" font-family="'Inter','Geist','Helvetica Neue',Arial,sans-serif" font-size="58" font-weight="400" letter-spacing="-3.2">sorovibe</text>
+</svg>
