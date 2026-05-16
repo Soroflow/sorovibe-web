@@ -111,6 +111,18 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 .pricing-btn:active{transform:scale(.96);}
 .pricing-fine{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.5;}
 
+/* Audience-grid — hvem er det for */
+.audience-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.audience-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 22px;box-shadow:var(--shadow);}
+.audience-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.audience-icon svg{width:22px;height:22px;}
+.audience-icon.beginner{background:var(--teal-bg);color:var(--teal-t);}
+.audience-icon.experienced{background:var(--purple-bg);color:var(--purple-t);}
+.audience-icon.shape{background:var(--amber-bg);color:var(--amber-t);}
+.audience-icon.maintain{background:var(--blue-bg);color:var(--blue-t);}
+.audience-title{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-0.01em;}
+.audience-desc{font-size:14px;color:var(--text);line-height:1.6;}
+
 /* Phone mockup (visual placeholder for app preview) */
 .phone-mock{background:linear-gradient(135deg,var(--teal-bg),var(--green-bg));border-radius:24px;aspect-ratio:9/16;max-height:340px;width:100%;max-width:200px;margin:0 auto;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);}
 .phone-mock-inner{text-align:center;padding:18px;}
@@ -210,6 +222,86 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
       <span data-lang data-lang-id="en">Get notified when new Sorovibe products launch. No spam — unsubscribe with one click.</span>
     </p>
     <p class="signup-msg" id="signupMsg" role="status" aria-live="polite"></p>
+  </section>
+
+  <!-- AUDIENCE — Hvem er det for -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span data-lang class="on" data-lang-id="da">Hvem er det for</span>
+        <span data-lang data-lang-id="en">Who it's for</span>
+      </span>
+      <h2>
+        <span data-lang class="on" data-lang-id="da">Tre slags brugere — én app</span>
+        <span data-lang data-lang-id="en">Three kinds of users — one app</span>
+      </h2>
+      <p class="sub">
+        <span data-lang class="on" data-lang-id="da">Træningslog er designet til at møde dig hvor du er — uden at lyve om hvad du kan opnå.</span>
+        <span data-lang data-lang-id="en">Træningslog is designed to meet you where you are — without lying about what you can achieve.</span>
+      </p>
+    </div>
+
+    <div class="audience-grid">
+      <!-- Begynder -->
+      <div class="audience-card">
+        <div class="audience-icon beginner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="M5 8c0 4 3 6 7 6s7-2 7-6"/><path d="M12 14c-3 0-6 2-6 6h12c0-4-3-6-6-6z"/></svg>
+        </div>
+        <div class="audience-title">
+          <span data-lang class="on" data-lang-id="da">Begynder</span>
+          <span data-lang data-lang-id="en">Beginner</span>
+        </div>
+        <p class="audience-desc">
+          <span data-lang-block class="on" data-lang="da">Du kender ikke programmering, makroer eller progression endnu. Appen giver dig et komplet 8-ugers program baseret på din vægt, køn og erfaring — så du ved præcis hvad du skal løfte, hvor mange reps, og hvor mange kalorier du skal spise. Konservative startvægte gør at du kommer i gang trygt.</span>
+          <span data-lang-block data-lang="en">You don't know programming, macros, or progression yet. The app gives you a complete 8-week program based on your weight, sex, and experience — so you know exactly what to lift, how many reps, and how many calories to eat. Conservative starting weights let you start safely.</span>
+        </p>
+      </div>
+
+      <!-- Øvet -->
+      <div class="audience-card">
+        <div class="audience-icon experienced">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5h11l-1 12h-9z"/><path d="M9 2l1.5 4.5"/><path d="M15 2l-1.5 4.5"/><path d="M9 11l3 3 3-3"/></svg>
+        </div>
+        <div class="audience-title">
+          <span data-lang class="on" data-lang-id="da">Øvet løfter</span>
+          <span data-lang data-lang-id="en">Experienced lifter</span>
+        </div>
+        <p class="audience-desc">
+          <span data-lang-block class="on" data-lang="da">Du programmerer måske allerede selv, men spilder tid i Excel. Appen automatiserer 8-ugers periodiseringen (baseline → +2.5 kg → peak → deload → PR-uge) med øvelsesvalg fra forskning af Wolf 2023, Maeo 2023 og Schoenfeld. Swap enkelte øvelser — PR-historikken følger automatisk med.</span>
+          <span data-lang-block data-lang="en">You may already program your own training but waste time in Excel. The app automates 8-week periodization (baseline → +2.5 kg → peak → deload → PR week) with exercise selection from research by Wolf 2023, Maeo 2023, and Schoenfeld. Swap individual exercises — PR history follows automatically.</span>
+        </p>
+      </div>
+
+      <!-- Vil i bedre form -->
+      <div class="audience-card">
+        <div class="audience-icon shape">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+        </div>
+        <div class="audience-title">
+          <span data-lang class="on" data-lang-id="da">Vil i bedre form</span>
+          <span data-lang data-lang-id="en">Want to get in shape</span>
+        </div>
+        <p class="audience-desc">
+          <span data-lang-block class="on" data-lang="da">Du vil ikke konkurrere — du vil bare føle dig stærkere og se forskel i spejlet. Appen kombinerer styrketræning og makro-tracking i én rolig app uden notifikationer og dark patterns. Sæt et mål (fedttab, muskelopbygning eller vedligehold) og programmet + makroerne tilpasser sig automatisk.</span>
+          <span data-lang-block data-lang="en">You're not competing — you just want to feel stronger and see a difference in the mirror. The app combines strength training and macro tracking in one calm app without notifications or dark patterns. Set a goal (fat loss, muscle gain, or maintenance) and the program + macros adjust automatically.</span>
+        </p>
+      </div>
+
+      <!-- Bare vedligeholde -->
+      <div class="audience-card">
+        <div class="audience-icon maintain">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 14l3-3 3 3 4-5"/><circle cx="8.5" cy="8.5" r="0.5" fill="currentColor"/></svg>
+        </div>
+        <div class="audience-title">
+          <span data-lang class="on" data-lang-id="da">Bare vedligeholde</span>
+          <span data-lang data-lang-id="en">Just maintain</span>
+        </div>
+        <p class="audience-desc">
+          <span data-lang-block class="on" data-lang="da">Du har allerede et fitness-niveau du er tilfreds med. Du vil bare have ét samlet sted at se din træning, kost og kropsmål over tid. Træningslog giver dig en rolig daglig oversigt med ringe, grafer og PR-historik — uden at presse dig til nye mål du ikke har lyst til.</span>
+          <span data-lang-block data-lang="en">You're already at a fitness level you're happy with. You just want one place to see your training, nutrition, and body measurements over time. Træningslog gives you a calm daily overview with rings, charts, and PR history — without pushing you toward new goals you don't want.</span>
+        </p>
+      </div>
+    </div>
   </section>
 
   <!-- PRODUCT -->
