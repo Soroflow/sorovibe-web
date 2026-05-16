@@ -100,6 +100,17 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 .early-supporter a{color:var(--amber-t);text-decoration:none;font-weight:600;border-bottom:1px solid var(--amber-bg);}
 .early-supporter a:hover{border-bottom-color:var(--amber-t);}
 
+/* Early Supporter pricing-boks — primary conversion CTA */
+.pricing-box{background:linear-gradient(135deg,var(--amber-bg),var(--card));border:1px solid var(--amber-t);border-radius:22px;padding:28px;margin-top:24px;box-shadow:var(--shadow);text-align:center;}
+@media(max-width:640px){.pricing-box{padding:24px 20px;margin-top:20px;}}
+.pricing-eyebrow{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber-t);background:var(--card);padding:5px 12px;border-radius:999px;margin-bottom:14px;border:1px solid var(--amber-t);}
+.pricing-title{font-size:clamp(24px,4vw,30px);font-weight:800;letter-spacing:-0.02em;margin-bottom:10px;line-height:1.2;}
+.pricing-sub{font-size:15px;color:var(--text);max-width:480px;margin:0 auto 18px;line-height:1.55;}
+.pricing-counter{font-size:13px;color:var(--amber-t);font-weight:600;margin-bottom:20px;}
+.pricing-btn{background:var(--text);color:var(--bg);border:none;border-radius:12px;padding:15px 28px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s ease;box-shadow:var(--shadow);}
+.pricing-btn:active{transform:scale(.96);}
+.pricing-fine{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.5;}
+
 /* Phone mockup (visual placeholder for app preview) */
 .phone-mock{background:linear-gradient(135deg,var(--teal-bg),var(--green-bg));border-radius:24px;aspect-ratio:9/16;max-height:340px;width:100%;max-width:200px;margin:0 auto;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);}
 .phone-mock-inner{text-align:center;padding:18px;}
@@ -108,17 +119,6 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 .phone-mock-title{font-size:13px;font-weight:700;color:var(--teal-t);margin-bottom:4px;}
 .phone-mock-sub{font-size:11px;color:var(--muted);}
 
-/* Coming soon grid */
-.soon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
-.soon-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;position:relative;}
-.soon-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
-.soon-icon svg{width:20px;height:20px;}
-.soon-icon.kost{background:var(--amber-bg);color:var(--amber-t);}
-.soon-icon.sleep{background:var(--purple-bg);color:var(--purple-t);}
-.soon-icon.mind{background:var(--blue-bg);color:var(--blue-t);}
-.soon-title{font-size:16px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
-.soon-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--input-bg);color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
-.soon-desc{font-size:13px;color:var(--muted);line-height:1.5;}
 
 /* Story / about */
 .story{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:32px;box-shadow:var(--shadow);}
@@ -243,33 +243,29 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
           <span data-lang-block data-lang="en">Log your sets, macros and body measurements. See progress charts, periodised training and automatic BMR — all in one calm PWA that works offline.</span>
         </p>
         <ul class="feature-list" data-lang-list data-lang="da">
-          <li>Periodiseret styrketræning med PR-tracking</li>
-          <li>Makrolog med ringe og kalorie-balance</li>
-          <li>Kropsmålinger og fremgangsdiagrammer</li>
-          <li>Bilingual — dansk og engelsk</li>
-          <li>Virker offline, installerbar som app</li>
+          <li>Evidens-baseret 8-ugers periodisering med deload og PR-uger</li>
+          <li>Citerede kilder — hvert tal i appen er klik-bart til forskningen bag</li>
+          <li>Køns-specifik BMR + automatisk makro-beregning (Mifflin-St Jeor)</li>
+          <li>Lifetime-pris — ingen abonnement, ingen ads, ingen data-salg</li>
+          <li>Bilingual, offline, installerbar som app</li>
         </ul>
         <ul class="feature-list" data-lang-list data-lang="en">
-          <li>Periodised strength training with PR tracking</li>
-          <li>Macro log with rings and calorie balance</li>
-          <li>Body measurements and progress charts</li>
-          <li>Bilingual — Danish and English</li>
-          <li>Works offline, installable as an app</li>
+          <li>Evidence-based 8-week periodisation with deload and PR weeks</li>
+          <li>Cited sources — every number in the app links to the research behind it</li>
+          <li>Sex-specific BMR + automatic macro calculation (Mifflin-St Jeor)</li>
+          <li>Lifetime pricing — no subscription, no ads, no data selling</li>
+          <li>Bilingual, offline, installable as an app</li>
         </ul>
         <div class="product-cta">
           <a href="https://fit.sorovibe.com" class="btn-primary">
             <span data-lang class="on" data-lang-id="da">Prøv gratis →</span>
             <span data-lang data-lang-id="en">Try it free →</span>
           </a>
-          <a href="https://fit.sorovibe.com" class="btn-secondary">
-            <span data-lang class="on" data-lang-id="da">Læs mere</span>
-            <span data-lang data-lang-id="en">Learn more</span>
+          <a href="#early-supporter" class="btn-secondary">
+            <span data-lang class="on" data-lang-id="da">Se priser ↓</span>
+            <span data-lang data-lang-id="en">See pricing ↓</span>
           </a>
         </div>
-        <small class="early-supporter">
-          <span data-lang-block class="on" data-lang="da">Vil du støtte projektet? <a href="https://fit.sorovibe.com">De første 100 supportere</a> kan låse appen for livstid for 199 kr.</span>
-          <span data-lang-block data-lang="en">Want to support the project? The <a href="https://fit.sorovibe.com">first 100 supporters</a> can unlock the app for life for 199 DKK.</span>
-        </small>
       </div>
       <div class="phone-mock" aria-hidden="true">
         <div class="phone-mock-inner">
@@ -287,67 +283,33 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- COMING SOON -->
-  <section class="section">
-    <div class="section-head">
-      <span class="eyebrow">
-        <span data-lang class="on" data-lang-id="da">På tegnebrættet</span>
-        <span data-lang data-lang-id="en">In the works</span>
+    <!-- EARLY SUPPORTER pricing-boks -->
+    <div class="pricing-box" id="early-supporter">
+      <span class="pricing-eyebrow">
+        <span data-lang class="on" data-lang-id="da">Early Supporter</span>
+        <span data-lang data-lang-id="en">Early Supporter</span>
       </span>
-      <h2>
-        <span data-lang class="on" data-lang-id="da">Mere end bare træning</span>
-        <span data-lang data-lang-id="en">More than just training</span>
-      </h2>
-      <p class="sub">
-        <span data-lang class="on" data-lang-id="da">Sorovibe er en paraply for hele wellness-rejsen — én vane ad gangen, uden støj.</span>
-        <span data-lang data-lang-id="en">Sorovibe is an umbrella for the whole wellness journey — one habit at a time, without the noise.</span>
+      <h3 class="pricing-title">
+        <span data-lang-block class="on" data-lang="da">199 kr — lifetime adgang</span>
+        <span data-lang-block data-lang="en">199 DKK <span style="font-size:0.55em;font-weight:500;color:var(--muted);white-space:nowrap;">(≈ €27 / $29)</span> — lifetime access</span>
+      </h3>
+      <p class="pricing-sub">
+        <span data-lang-block class="on" data-lang="da">Køb appen én gang, brug den for altid. Ingen abonnement, ingen ads, ingen data-salg. De første 100 brugere får denne pris — derefter stiger den.</span>
+        <span data-lang-block data-lang="en">Pay once, use it forever. No subscription, no ads, no data selling. The first 100 users get this price — it goes up after that.</span>
       </p>
-    </div>
-    <div class="soon-grid">
-      <div class="soon-card">
-        <div class="soon-icon kost">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8 2 4 6 4 12c0 5 4 10 8 10s8-5 8-10c0-6-4-10-8-10z"/><path d="M12 6v6l3 2"/></svg>
-        </div>
-        <div class="soon-title">
-          <span data-lang class="on" data-lang-id="da">Kost</span>
-          <span data-lang data-lang-id="en">Nutrition</span>
-          <span class="soon-badge"><span data-lang class="on" data-lang-id="da">Snart</span><span data-lang data-lang-id="en">Soon</span></span>
-        </div>
-        <p class="soon-desc">
-          <span data-lang class="on" data-lang-id="da">Foto-baseret makro-tracking og enkle måltidsplaner — uden at tælle hver eneste mandel.</span>
-          <span data-lang data-lang-id="en">Photo-based macro tracking and simple meal plans — without counting every almond.</span>
-        </p>
+      <div class="pricing-counter" id="pricingCounter">
+        <span data-lang-block class="on" data-lang="da">0 af 100 pladser solgt</span>
+        <span data-lang-block data-lang="en">0 of 100 spots sold</span>
       </div>
-      <div class="soon-card">
-        <div class="soon-icon sleep">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </div>
-        <div class="soon-title">
-          <span data-lang class="on" data-lang-id="da">Søvn</span>
-          <span data-lang data-lang-id="en">Sleep</span>
-          <span class="soon-badge"><span data-lang class="on" data-lang-id="da">Snart</span><span data-lang data-lang-id="en">Soon</span></span>
-        </div>
-        <p class="soon-desc">
-          <span data-lang class="on" data-lang-id="da">Søvnvaner der faktisk holder, koblet til træning og restitution.</span>
-          <span data-lang data-lang-id="en">Sleep habits that actually stick, tied to training and recovery.</span>
-        </p>
-      </div>
-      <div class="soon-card">
-        <div class="soon-icon mind">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-        </div>
-        <div class="soon-title">
-          <span data-lang class="on" data-lang-id="da">Mental</span>
-          <span data-lang data-lang-id="en">Mind</span>
-          <span class="soon-badge"><span data-lang class="on" data-lang-id="da">Snart</span><span data-lang data-lang-id="en">Soon</span></span>
-        </div>
-        <p class="soon-desc">
-          <span data-lang class="on" data-lang-id="da">Korte journaling- og refleksions-prompts der passer ind i en travl hverdag.</span>
-          <span data-lang data-lang-id="en">Short journaling and reflection prompts that fit a busy day.</span>
-        </p>
-      </div>
+      <a href="https://fit.sorovibe.com" class="pricing-btn">
+        <span data-lang class="on" data-lang-id="da">Køb lifetime →</span>
+        <span data-lang data-lang-id="en">Buy lifetime →</span>
+      </a>
+      <p class="pricing-fine">
+        <span data-lang-block class="on" data-lang="da">Du opretter en konto, og lifetime-adgangen aktiveres efter betaling. 14 dages fortrydelsesret jf. EU-forbrugerlov.</span>
+        <span data-lang-block data-lang="en">You create an account and lifetime access is activated after payment. 14-day right of withdrawal per EU consumer law.</span>
+      </p>
     </div>
   </section>
 
@@ -366,13 +328,13 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
     <div class="story">
       <div data-lang-block class="on" data-lang="da">
         <p>Sorovibe startede fordi de fleste sundhedsapps føles som casinoer — blinkende notifikationer, gamificerede streaks, "premium"-popups hvert tredje skærmbillede.</p>
-        <p>Det er ikke det jeg gerne ville bruge. Sorovibe er det modsatte: rolige værktøjer, ærlig prissætning, og en lille linje produkter der hænger sammen.</p>
-        <p class="muted">— Soroush, sololaver bag Sorovibe</p>
+        <p>Det er ikke det jeg gerne ville bruge. Sorovibe er det modsatte: rolige værktøjer, ærlig prissætning, og en lille linje produkter der hænger sammen. Træningslog er det første — flere wellness-værktøjer er på tegnebrættet, men jeg lover dem ikke før de er klar.</p>
+        <p class="muted">— Soroush, manden bag Sorovibe</p>
       </div>
       <div data-lang-block data-lang="en">
         <p>Sorovibe started because most health apps feel like casinos — flashing notifications, gamified streaks, "premium" popups every third screen.</p>
-        <p>That's not what I wanted to use. Sorovibe is the opposite: calm tools, honest pricing, and a small product line that fits together.</p>
-        <p class="muted">— Soroush, solo founder of Sorovibe</p>
+        <p>That's not what I wanted to use. Sorovibe is the opposite: calm tools, honest pricing, and a small product line that fits together. Træningslog is the first — more wellness tools are in the works, but I won't promise them until they're ready.</p>
+        <p class="muted">— Soroush, the person behind Sorovibe</p>
       </div>
     </div>
   </section>
