@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181715" media="(prefers-color-scheme: dark)">
 <title>Sorovibe — Wellness, vane for vane</title>
-<meta name="description" content="Sorovibe bygger rolige, premium wellness-værktøjer. Start med Træningslog — personlig trænings- og makrolog. Mere på vej.">
+<meta name="description" content="Træningslog: evidens-baseret trænings- og makrolog. Personligt 8-ugers program, automatiske makroer, lifetime-pris. Forskning gør resten.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sorovibe.com/">
 <meta property="og:title" content="Sorovibe — Wellness, vane for vane">
@@ -146,6 +146,37 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 .foot-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:14px;}
 .foot-copy{font-size:12px;color:var(--hint);}
 
+/* Value-grid — hvad du faktisk får */
+.value-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+.value-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 22px;box-shadow:var(--shadow);}
+.value-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:var(--teal-bg);color:var(--teal-t);}
+.value-icon svg{width:22px;height:22px;}
+.value-icon.alt-amber{background:var(--amber-bg);color:var(--amber-t);}
+.value-icon.alt-purple{background:var(--purple-bg);color:var(--purple-t);}
+.value-icon.alt-blue{background:var(--blue-bg);color:var(--blue-t);}
+.value-title{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-0.01em;}
+.value-desc{font-size:14px;color:var(--text);line-height:1.6;}
+
+/* Audience-card evidence-tail */
+.audience-evidence{font-size:13px;color:var(--muted);line-height:1.55;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.audience-evidence strong{color:var(--text);font-weight:600;}
+
+/* Ratio-grid — træning/kost/søvn 80/20-blok */
+.ratio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px;}
+.ratio-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 22px;box-shadow:var(--shadow);}
+.ratio-pct{font-size:38px;font-weight:800;letter-spacing:-0.03em;line-height:1;margin-bottom:8px;}
+.ratio-training .ratio-pct{color:var(--teal-t);}
+.ratio-nutrition .ratio-pct{color:var(--amber-t);}
+.ratio-sleep .ratio-pct{color:var(--purple-t);}
+.ratio-title{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-0.01em;}
+.ratio-desc{font-size:14px;color:var(--muted);line-height:1.6;}
+.ratio-app-note{background:var(--teal-bg);border:1px solid color-mix(in srgb,var(--teal-t) 25%,transparent);border-radius:16px;padding:20px 22px;}
+.ratio-app-note p{font-size:14px;color:var(--text);line-height:1.65;}
+.ratio-app-note em{color:var(--muted);font-style:normal;}
+@media(prefers-color-scheme:dark){
+  .ratio-app-note{background:color-mix(in srgb,var(--teal-bg) 60%,var(--card));}
+}
+
 /* iOS zoom-fix */
 @media(max-width:700px){
   input,select,textarea{font-size:16px;}
@@ -224,6 +255,82 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
     <p class="signup-msg" id="signupMsg" role="status" aria-live="polite"></p>
   </section>
 
+  <!-- VALUE — Hvad du faktisk får -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span data-lang class="on" data-lang-id="da">Hvad du får</span>
+        <span data-lang data-lang-id="en">What you get</span>
+      </span>
+      <h2>
+        <span data-lang class="on" data-lang-id="da">Slut med gætværk i træningscentret</span>
+        <span data-lang data-lang-id="en">No more guesswork in the gym</span>
+      </h2>
+      <p class="sub">
+        <span data-lang class="on" data-lang-id="da">Du åbner appen, ser hvad du skal i dag, og ved at det er bygget på forskning — ikke instagram-trends.</span>
+        <span data-lang data-lang-id="en">Open the app, see what to do today, and know it's built on research — not Instagram trends.</span>
+      </p>
+    </div>
+
+    <div class="value-grid">
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3 class="value-title">
+          <span data-lang class="on" data-lang-id="da">Du ved hvad du skal i dag</span>
+          <span data-lang data-lang-id="en">You know what to do today</span>
+        </h3>
+        <p class="value-desc">
+          <span data-lang-block class="on" data-lang="da">Programmet planlægger 8 uger frem — øvelser, sæt, reps og vægt. Du åbner appen og logger. Ingen Excel, ingen YouTube-kaninhul.</span>
+          <span data-lang-block data-lang="en">The program plans 8 weeks ahead — exercises, sets, reps, and weight. Open the app and log. No Excel, no YouTube rabbit hole.</span>
+        </p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon alt-amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <h3 class="value-title">
+          <span data-lang class="on" data-lang-id="da">Du ved hvad du skal spise</span>
+          <span data-lang data-lang-id="en">You know what to eat</span>
+        </h3>
+        <p class="value-desc">
+          <span data-lang-block class="on" data-lang="da">Appen beregner dit BMR (Mifflin-St Jeor) og fordeler protein, fedt og kulhydrat efter dit mål. Du logger hvad du spiser — appen viser om det matcher.</span>
+          <span data-lang-block data-lang="en">The app calculates your BMR (Mifflin-St Jeor) and splits protein, fat, and carbs by your goal. You log what you eat — the app shows whether it matches.</span>
+        </p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon alt-purple">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+        </div>
+        <h3 class="value-title">
+          <span data-lang class="on" data-lang-id="da">Du ser fremgang sort på hvidt</span>
+          <span data-lang data-lang-id="en">You see progress in black and white</span>
+        </h3>
+        <p class="value-desc">
+          <span data-lang-block class="on" data-lang="da">PR-grafer, vægtkurver og kropsmål samles ét sted. Du kan se 12 måneder tilbage og vurdere om du faktisk rykker dig — eller om noget skal ændres.</span>
+          <span data-lang-block data-lang="en">PR charts, weight curves, and body measurements in one place. Look 12 months back and judge whether you're actually progressing — or if something needs to change.</span>
+        </p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon alt-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0-6 6c0 2 .5 3.5 1.5 5L6 17h12l-1.5-3c1-1.5 1.5-3 1.5-5a6 6 0 0 0-6-6z"/><path d="M10 20h4"/></svg>
+        </div>
+        <h3 class="value-title">
+          <span data-lang class="on" data-lang-id="da">Du har ro i hovedet</span>
+          <span data-lang data-lang-id="en">Mental quiet</span>
+        </h3>
+        <p class="value-desc">
+          <span data-lang-block class="on" data-lang="da">Ingen notifikationer, ingen streaks, ingen "premium"-popups. Ingen data der sælges. Du åbner appen når du har lyst — den venter stille.</span>
+          <span data-lang-block data-lang="en">No notifications, no streaks, no "premium" popups. No data sold. Open the app when you want — it waits quietly.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- AUDIENCE — Hvem er det for -->
   <section class="section">
     <div class="section-head">
@@ -255,6 +362,10 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
           <span data-lang-block class="on" data-lang="da">Du kender ikke programmering, makroer eller progression endnu. Appen giver dig et komplet 8-ugers program baseret på din vægt, køn og erfaring — så du ved præcis hvad du skal løfte, hvor mange reps, og hvor mange kalorier du skal spise. Konservative startvægte gør at du kommer i gang trygt.</span>
           <span data-lang-block data-lang="en">You don't know programming, macros, or progression yet. The app gives you a complete 8-week program based on your weight, sex, and experience — so you know exactly what to lift, how many reps, and how many calories to eat. Conservative starting weights let you start safely.</span>
         </p>
+        <p class="audience-evidence">
+          <span data-lang-block class="on" data-lang="da"><strong>Forskning:</strong> Begyndere får 2-3× hurtigere styrke-fremgang på struktureret periodisering end på selvtilrettelagt træning (Rhea 2003, meta-analyse).</span>
+          <span data-lang-block data-lang="en"><strong>Research:</strong> Beginners gain strength 2-3× faster on structured periodisation than on self-directed training (Rhea 2003 meta-analysis).</span>
+        </p>
       </div>
 
       <!-- Øvet -->
@@ -269,6 +380,10 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
         <p class="audience-desc">
           <span data-lang-block class="on" data-lang="da">Du programmerer måske allerede selv, men spilder tid i Excel. Appen automatiserer 8-ugers periodiseringen (baseline → +2.5 kg → peak → deload → PR-uge) med øvelsesvalg fra forskning af Wolf 2023, Maeo 2023 og Schoenfeld. Swap enkelte øvelser — PR-historikken følger automatisk med.</span>
           <span data-lang-block data-lang="en">You may already program your own training but waste time in Excel. The app automates 8-week periodization (baseline → +2.5 kg → peak → deload → PR week) with exercise selection from research by Wolf 2023, Maeo 2023, and Schoenfeld. Swap individual exercises — PR history follows automatically.</span>
+        </p>
+        <p class="audience-evidence">
+          <span data-lang-block class="on" data-lang="da"><strong>Forskning:</strong> 10-20 sæt pr. muskelgruppe pr. uge er sweet spot for hypertrofi hos øvede (Schoenfeld 2017, Baz-Valle 2022). Programmeret deload hver 4.-6. uge reducerer skadesrisiko og bevarer fremgang.</span>
+          <span data-lang-block data-lang="en"><strong>Research:</strong> 10-20 sets per muscle per week is the hypertrophy sweet spot for trained lifters (Schoenfeld 2017, Baz-Valle 2022). Programmed deloads every 4-6 weeks reduce injury risk and preserve progress.</span>
         </p>
       </div>
 
@@ -285,6 +400,10 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
           <span data-lang-block class="on" data-lang="da">Du vil ikke konkurrere — du vil bare føle dig stærkere og se forskel i spejlet. Appen kombinerer styrketræning og makro-tracking i én rolig app uden notifikationer og dark patterns. Sæt et mål (fedttab, muskelopbygning eller vedligehold) og programmet + makroerne tilpasser sig automatisk.</span>
           <span data-lang-block data-lang="en">You're not competing — you just want to feel stronger and see a difference in the mirror. The app combines strength training and macro tracking in one calm app without notifications or dark patterns. Set a goal (fat loss, muscle gain, or maintenance) and the program + macros adjust automatically.</span>
         </p>
+        <p class="audience-evidence">
+          <span data-lang-block class="on" data-lang="da"><strong>Forskning:</strong> Recomposition — at tabe fedt og bygge muskel samtidigt — kræver kalorie-disciplin og protein på 1.6-2.2 g/kg (Helms et al. 2014, Morton et al. 2018). Appen beregner begge automatisk.</span>
+          <span data-lang-block data-lang="en"><strong>Research:</strong> Body recomposition — losing fat and building muscle simultaneously — requires calorie discipline and protein at 1.6-2.2 g/kg (Helms et al. 2014, Morton et al. 2018). The app calculates both automatically.</span>
+        </p>
       </div>
 
       <!-- Bare vedligeholde -->
@@ -300,7 +419,72 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
           <span data-lang-block class="on" data-lang="da">Du har allerede et fitness-niveau du er tilfreds med. Du vil bare have ét samlet sted at se din træning, kost og kropsmål over tid. Træningslog giver dig en rolig daglig oversigt med ringe, grafer og PR-historik — uden at presse dig til nye mål du ikke har lyst til.</span>
           <span data-lang-block data-lang="en">You're already at a fitness level you're happy with. You just want one place to see your training, nutrition, and body measurements over time. Træningslog gives you a calm daily overview with rings, charts, and PR history — without pushing you toward new goals you don't want.</span>
         </p>
+        <p class="audience-evidence">
+          <span data-lang-block class="on" data-lang="da"><strong>Forskning:</strong> Vedligehold kræver kun ~1/3 af det træningsvolumen der bygger muskel op (Bickel et al. 2011). Appen tilbyder minimum-effective-dose programmering så 2-3 sessioner om ugen er nok.</span>
+          <span data-lang-block data-lang="en"><strong>Research:</strong> Maintenance only requires ~1/3 of the training volume needed to build muscle (Bickel et al. 2011). The app offers minimum-effective-dose programming so 2-3 sessions per week is enough.</span>
+        </p>
       </div>
+    </div>
+  </section>
+
+  <!-- 80/20 — Træning + kost + søvn -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span data-lang class="on" data-lang-id="da">Forskningen bag</span>
+        <span data-lang data-lang-id="en">The research</span>
+      </span>
+      <h2>
+        <span data-lang class="on" data-lang-id="da">Træning er kun en del af regnestykket</span>
+        <span data-lang data-lang-id="en">Training is only part of the equation</span>
+      </h2>
+      <p class="sub">
+        <span data-lang class="on" data-lang-id="da">Du kan træne perfekt fire dage om ugen og stadig stå stille. Det er ikke fordi du er doven — det er fordi de andre to faktorer ikke er på plads.</span>
+        <span data-lang data-lang-id="en">You can train perfectly four days a week and still go nowhere. Not because you're lazy — because the other two factors aren't in place.</span>
+      </p>
+    </div>
+
+    <div class="ratio-grid">
+      <div class="ratio-card ratio-training">
+        <div class="ratio-pct">~20%</div>
+        <h3 class="ratio-title">
+          <span data-lang class="on" data-lang-id="da">Træning</span>
+          <span data-lang data-lang-id="en">Training</span>
+        </h3>
+        <p class="ratio-desc">
+          <span data-lang-block class="on" data-lang="da">Stimulus til muskel- og styrke-vækst. Vigtig — men begrænset effekt uden de næste to.</span>
+          <span data-lang-block data-lang="en">The stimulus for muscle and strength growth. Important — but limited effect without the next two.</span>
+        </p>
+      </div>
+      <div class="ratio-card ratio-nutrition">
+        <div class="ratio-pct">~50%</div>
+        <h3 class="ratio-title">
+          <span data-lang class="on" data-lang-id="da">Kost</span>
+          <span data-lang data-lang-id="en">Nutrition</span>
+        </h3>
+        <p class="ratio-desc">
+          <span data-lang-block class="on" data-lang="da">Energi til at træne, protein til at bygge muskel, kalorie-balance til at tabe fedt. Uden de rigtige tal i den rigtige retning sker der intet.</span>
+          <span data-lang-block data-lang="en">Energy to train, protein to build muscle, calorie balance to lose fat. Without the right numbers in the right direction, nothing happens.</span>
+        </p>
+      </div>
+      <div class="ratio-card ratio-sleep">
+        <div class="ratio-pct">~30%</div>
+        <h3 class="ratio-title">
+          <span data-lang class="on" data-lang-id="da">Søvn &amp; restitution</span>
+          <span data-lang data-lang-id="en">Sleep &amp; recovery</span>
+        </h3>
+        <p class="ratio-desc">
+          <span data-lang-block class="on" data-lang="da">Det er her kroppen reparerer og adapterer. På diæt med kun 5,5 timers søvn taber du tre gange så meget muskel og halvt så meget fedt som ved 8,5 timer (Nedeltcheva 2010).</span>
+          <span data-lang-block data-lang="en">This is when the body actually repairs and adapts. On a diet with only 5.5 hours of sleep, you lose 3× more muscle and half as much fat as on 8.5 hours (Nedeltcheva 2010).</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="ratio-app-note">
+      <p>
+        <span data-lang-block class="on" data-lang="da"><strong>Derfor sporer Træningslog både din træning og dine makroer i én app.</strong> Søvnen er på dig — men appen minder dig om hvorfor den er det tredje ben. Vægtning og prioritering bygger på Helms et al. (<em>The Muscle &amp; Strength Pyramid</em>, 2018) og Schoenfeld et al.</span>
+        <span data-lang-block data-lang="en"><strong>That's why Træningslog tracks both your training and your macros in one app.</strong> Sleep is on you — but the app reminds you why it's the third leg. Weighting and priorities based on Helms et al. (<em>The Muscle &amp; Strength Pyramid</em>, 2018) and Schoenfeld et al.</span>
+      </p>
     </div>
   </section>
 
