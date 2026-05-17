@@ -647,10 +647,17 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
   const supported = ['da','en'];
 
   function getInitialLang(){
+    // 1. URL query (?lang=en) — træningsappen linker hertil fra EN login
+    try{
+      const q = new URLSearchParams(location.search).get('lang');
+      if(q && supported.includes(q.toLowerCase())) return q.toLowerCase();
+    }catch(e){}
+    // 2. Tidligere valg gemt i localStorage
     try{
       const saved = localStorage.getItem(STORAGE_KEY);
       if(supported.includes(saved)) return saved;
     }catch(e){}
+    // 3. Browser-locale
     const browser = (navigator.language || 'da').slice(0,2).toLowerCase();
     return supported.includes(browser) ? browser : 'da';
   }
