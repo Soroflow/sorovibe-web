@@ -587,8 +587,8 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
         <span data-lang-block data-lang="en">Træningslog as it works today — workout, nutrition, sleep and cardio — plus all bug fixes and improvements to these features. Forever. No subscription, no ads, no data selling. The first 100 users get this price — it goes up after that.</span>
       </p>
       <div class="pricing-counter" id="pricingCounter">
-        <span data-lang-block class="on" data-lang="da">0 af 100 pladser solgt</span>
-        <span data-lang-block data-lang="en">0 of 100 spots sold</span>
+        <span data-lang-block class="on" data-lang="da"><span class="lifetime-count">0</span> af 100 pladser solgt</span>
+        <span data-lang-block data-lang="en"><span class="lifetime-count">0</span> of 100 spots sold</span>
       </div>
       <a href="https://buy.stripe.com/6oU5kw3SfbIgbBP6fj5wI00" class="pricing-btn" id="lifetimeBtn" rel="noopener noreferrer">
         <span data-lang class="on" data-lang-id="da">Køb lifetime →</span>
@@ -742,6 +742,19 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
   function tt(da, en){
     return document.documentElement.lang === 'en' ? en : da;
   }
+
+  // Live lifetime-counter — fetcher antal solgte fra /api/lifetime-count.
+  // Erstatter "0"-placeholderen i .lifetime-count spans hvis fetch succeederer.
+  // Fejler stille: hvis fetch eller server fejler beholder vi "0" som fallback.
+  fetch('/api/lifetime-count', { headers: { 'Accept': 'application/json' } })
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if (!data || typeof data.count !== 'number') return;
+      document.querySelectorAll('.lifetime-count').forEach(el => {
+        el.textContent = String(data.count);
+      });
+    })
+    .catch(() => {});
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
