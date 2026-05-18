@@ -21,10 +21,18 @@
 <meta name="twitter:image:alt" content="Sorovibe — Wellness, habit by habit">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="canonical" href="https://sorovibe.com/">
+<link rel="alternate" hreflang="da" href="https://sorovibe.com/">
+<link rel="alternate" hreflang="en" href="https://sorovibe.com/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://sorovibe.com/">
 <style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/inter-400.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/inter-500.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/inter-600.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/inter-700.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url('/fonts/inter-800.woff2') format('woff2');}
 :root{
   --bg:#f7f6f3;--card:#fff;--border:#e8e6e1;--text:#1a1917;--muted:#888580;--hint:#c0bcb6;
   --input-bg:#f2f0ec;--green-bg:#eaf3de;--green-t:#3b6d11;--green-b:#97c459;
@@ -275,7 +283,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
     <div class="value-grid">
       <div class="value-card">
         <div class="value-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
         </div>
         <h3 class="value-title">
           <span data-lang class="on" data-lang-id="da">Du ved hvad du skal i dag</span>
@@ -289,7 +297,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 
       <div class="value-card">
         <div class="value-icon alt-amber">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
         </div>
         <h3 class="value-title">
           <span data-lang class="on" data-lang-id="da">Du ved hvad du skal spise</span>
@@ -303,7 +311,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 
       <div class="value-card">
         <div class="value-icon alt-purple">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
         </div>
         <h3 class="value-title">
           <span data-lang class="on" data-lang-id="da">Du ser fremgang sort på hvidt</span>
@@ -317,7 +325,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 
       <div class="value-card">
         <div class="value-icon alt-blue">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0-6 6c0 2 .5 3.5 1.5 5L6 17h12l-1.5-3c1-1.5 1.5-3 1.5-5a6 6 0 0 0-6-6z"/><path d="M10 20h4"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0-6 6c0 2 .5 3.5 1.5 5L6 17h12l-1.5-3c1-1.5 1.5-3 1.5-5a6 6 0 0 0-6-6z"/><path d="M10 20h4"/></svg>
         </div>
         <h3 class="value-title">
           <span data-lang class="on" data-lang-id="da">Du har ro i hovedet</span>
@@ -352,7 +360,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
       <!-- Begynder -->
       <div class="audience-card">
         <div class="audience-icon beginner">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="M5 8c0 4 3 6 7 6s7-2 7-6"/><path d="M12 14c-3 0-6 2-6 6h12c0-4-3-6-6-6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="M5 8c0 4 3 6 7 6s7-2 7-6"/><path d="M12 14c-3 0-6 2-6 6h12c0-4-3-6-6-6z"/></svg>
         </div>
         <div class="audience-title">
           <span data-lang class="on" data-lang-id="da">Begynder</span>
@@ -371,7 +379,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
       <!-- Øvet -->
       <div class="audience-card">
         <div class="audience-icon experienced">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5h11l-1 12h-9z"/><path d="M9 2l1.5 4.5"/><path d="M15 2l-1.5 4.5"/><path d="M9 11l3 3 3-3"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5h11l-1 12h-9z"/><path d="M9 2l1.5 4.5"/><path d="M15 2l-1.5 4.5"/><path d="M9 11l3 3 3-3"/></svg>
         </div>
         <div class="audience-title">
           <span data-lang class="on" data-lang-id="da">Øvet løfter</span>
@@ -390,7 +398,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
       <!-- Vil i bedre form -->
       <div class="audience-card">
         <div class="audience-icon shape">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
         </div>
         <div class="audience-title">
           <span data-lang class="on" data-lang-id="da">Vil i bedre form</span>
@@ -409,7 +417,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
       <!-- Bare vedligeholde -->
       <div class="audience-card">
         <div class="audience-icon maintain">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 14l3-3 3 3 4-5"/><circle cx="8.5" cy="8.5" r="0.5" fill="currentColor"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 14l3-3 3 3 4-5"/><circle cx="8.5" cy="8.5" r="0.5" fill="currentColor"/></svg>
         </div>
         <div class="audience-title">
           <span data-lang class="on" data-lang-id="da">Bare vedligeholde</span>
@@ -537,7 +545,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
           <li>Bilingual, offline, installable as an app</li>
         </ul>
         <div class="product-cta">
-          <a href="https://fit.sorovibe.com" class="btn-primary">
+          <a href="https://fit.sorovibe.com" class="btn-primary" rel="noopener noreferrer">
             <span data-lang class="on" data-lang-id="da">Prøv gratis →</span>
             <span data-lang data-lang-id="en">Try it free →</span>
           </a>
@@ -575,20 +583,20 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
         <span data-lang-block data-lang="en">199 DKK <span style="font-size:0.55em;font-weight:500;color:var(--muted);white-space:nowrap;">(≈ €27 / $29)</span> — lifetime access</span>
       </h3>
       <p class="pricing-sub">
-        <span data-lang-block class="on" data-lang="da">Køb appen én gang, brug den for altid. Ingen abonnement, ingen ads, ingen data-salg. De første 100 brugere får denne pris — derefter stiger den.</span>
-        <span data-lang-block data-lang="en">Pay once, use it forever. No subscription, no ads, no data selling. The first 100 users get this price — it goes up after that.</span>
+        <span data-lang-block class="on" data-lang="da">Træningslog som den fungerer i dag — workout, kost, søvn og cardio — plus alle bug-fixes og forbedringer af disse features. For altid. Ingen abonnement, ingen ads, ingen data-salg. De første 100 brugere får denne pris — derefter stiger den.</span>
+        <span data-lang-block data-lang="en">Træningslog as it works today — workout, nutrition, sleep and cardio — plus all bug fixes and improvements to these features. Forever. No subscription, no ads, no data selling. The first 100 users get this price — it goes up after that.</span>
       </p>
       <div class="pricing-counter" id="pricingCounter">
         <span data-lang-block class="on" data-lang="da">0 af 100 pladser solgt</span>
         <span data-lang-block data-lang="en">0 of 100 spots sold</span>
       </div>
-      <a href="https://fit.sorovibe.com" class="pricing-btn">
+      <a href="STRIPE_PAYMENT_LINK_PLACEHOLDER" class="pricing-btn" id="lifetimeBtn" rel="noopener noreferrer">
         <span data-lang class="on" data-lang-id="da">Køb lifetime →</span>
         <span data-lang data-lang-id="en">Buy lifetime →</span>
       </a>
       <p class="pricing-fine">
-        <span data-lang-block class="on" data-lang="da">Du opretter en konto, og lifetime-adgangen aktiveres efter betaling. 14 dages fortrydelsesret jf. EU-forbrugerlov.</span>
-        <span data-lang-block data-lang="en">You create an account and lifetime access is activated after payment. 14-day right of withdrawal per EU consumer law.</span>
+        <span data-lang-block class="on" data-lang="da">Du opretter en konto, og lifetime-adgangen aktiveres efter betaling. 14 dages fortrydelsesret jf. EU-forbrugerlov. <strong>Ikke inkluderet:</strong> fremtidige Pro-features som AI-coach, custom programmering, Apple Health / Google Fit-integration eller andre helt nye Sorovibe-produkter — disse kan kræve separat betaling.</span>
+        <span data-lang-block data-lang="en">You create an account and lifetime access is activated after payment. 14-day right of withdrawal per EU consumer law. <strong>Not included:</strong> future Pro features like AI coach, custom programming, Apple Health / Google Fit integration, or entirely new Sorovibe products — these may require separate payment.</span>
       </p>
     </div>
   </section>
@@ -624,7 +632,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 <footer class="site-foot">
   <div class="wrap">
     <div class="foot-links">
-      <a href="https://fit.sorovibe.com">
+      <a href="https://fit.sorovibe.com" rel="noopener noreferrer">
         <span data-lang class="on" data-lang-id="da">Træningslog</span>
         <span data-lang data-lang-id="en">Training log</span>
       </a>
@@ -692,6 +700,23 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
     // OG meta locale
     const ogLocale = document.querySelector('meta[property="og:locale"]');
     if(ogLocale) ogLocale.setAttribute('content', lang === 'da' ? 'da_DK' : 'en_US');
+
+    // Localized title + description
+    const titles = {
+      da: 'Sorovibe — Wellness, vane for vane',
+      en: 'Sorovibe — Wellness, habit by habit'
+    };
+    const descs = {
+      da: 'Træningslog: evidens-baseret trænings- og makrolog. Personligt 8-ugers program, automatiske makroer, lifetime-pris. Forskning gør resten.',
+      en: 'Træningslog: evidence-based training and macro log. Personalized 8-week program, automatic macros, lifetime pricing. Research does the rest.'
+    };
+    document.title = titles[lang];
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if(metaDesc) metaDesc.setAttribute('content', descs[lang]);
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if(ogTitle) ogTitle.setAttribute('content', titles[lang]);
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if(ogDesc) ogDesc.setAttribute('content', descs[lang]);
 
     try{ localStorage.setItem(STORAGE_KEY, lang); }catch(e){}
   }

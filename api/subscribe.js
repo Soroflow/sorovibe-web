@@ -7,13 +7,51 @@
 //   RESEND_SEGMENT_ID   — UUID for den segment der skal modtage signups
 //
 // Frivillig:
-//   ALLOWED_ORIGIN      — fx "https://sorovibe.com" (default: tillader alt)
+//   ALLOWED_ORIGIN      — fx "https://sorovibe.com" (default: kun apex + www).
+//                         Sat strikt for at forhindre cross-site abuse.
 
 export const config = { runtime: 'edge' };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FROM_ADDRESS = 'Sorovibe <noreply@sorovibe.com>';
 const REPLY_TO = 'hello@sorovibe.com';
+
+// Hardcoded allowlist hvis ALLOWED_ORIGIN ikke er sat
+const DEFAULT_ALLOWED_ORIGINS = [
+  'https://sorovibe.com',
+  'https://www.sorovibe.com',
+];
+
+// ── RATE LIMIT (simpel in-memory pr. Edge-instans) ─────────────────────
+// Bemærk: Vercel Edge functions kan have flere instances og memory wipes
+// ved cold start. Det er ikke bullet-proof, men stopper trivielle floods.
+// For ægte rate-limit brug Upstash Redis.
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 5; // max 5 signups pr. IP pr. minut
+const ipRequests = new Map(); // ip -> array of timestamps
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const cutoff = now - RATE_LIMIT_WINDOW_MS;
+  const arr = (ipRequests.get(ip) || []).filter(ts => ts > cutoff);
+  if (arr.length >= RATE_LIMIT_MAX) {
+    return { ok: false, retryAfter: Math.ceil((arr[0] + RATE_LIMIT_WINDOW_MS - now) / 1000) };
+  }
+  arr.push(now);
+  ipRequests.set(ip, arr);
+  // Skraldspand: hold map'en under kontrol
+  if (ipRequests.size > 10_000) {
+    for (const [k, v] of ipRequests) {
+      if (!v.some(ts => ts > cutoff)) ipRequests.delete(k);
+    }
+  }
+  return { ok: true };
+}
+
+function getClientIp(req) {
+  const fwd = req.headers.get('x-forwarded-for') || '';
+  return fwd.split(',')[0].trim() || req.headers.get('x-real-ip') || 'unknown';
+}
 
 function jsonResponse(body, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(body), {
@@ -27,9 +65,12 @@ function jsonResponse(body, status = 200, extraHeaders = {}) {
 }
 
 function corsHeaders(req) {
-  const allowed = process.env.ALLOWED_ORIGIN || '*';
   const origin = req.headers.get('origin') || '';
-  const allow = allowed === '*' ? '*' : (origin === allowed ? origin : allowed);
+  const envAllowed = process.env.ALLOWED_ORIGIN;
+  const allowList = envAllowed
+    ? envAllowed.split(',').map(s => s.trim())
+    : DEFAULT_ALLOWED_ORIGINS;
+  const allow = allowList.includes(origin) ? origin : allowList[0];
   return {
     'Access-Control-Allow-Origin': allow,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -39,9 +80,6 @@ function corsHeaders(req) {
 }
 
 // ── WELCOME EMAIL ──────────────────────────────────────────────────────
-// Brand-aligned minimal HTML der renderer godt i Gmail/Outlook/Apple Mail.
-// Bruger system-font stack (web-fonts virker ikke pålideligt i email-klienter)
-// og inline-styles (eksterne stylesheets ignoreres i mange klienter).
 const WELCOME_TEMPLATES = {
   da: {
     subject: 'Velkommen til Sorovibe',
@@ -83,12 +121,12 @@ const WELCOME_TEMPLATES = {
       heading: 'Welcome to Sorovibe',
       greeting: 'Hi,',
       thanks: 'Thanks for signing up.',
-      body: 'You\'ll hear from me next time something meaningful lands — new products, updates, or anything I think you should know. No spam ever, and you can unsubscribe with one click.',
+      body: "You'll hear from me next time something meaningful lands — new products, updates, or anything I think you should know. No spam ever, and you can unsubscribe with one click.",
       cta: 'In the meantime, give the training app a try at',
       ctaLink: 'fit.sorovibe.com',
       sign: '— Soroush',
       brand: 'Sorovibe',
-      footer: 'You\'re receiving this email because you signed up at sorovibe.com.',
+      footer: "You're receiving this email because you signed up at sorovibe.com.",
       unsubscribePrefix: 'Want to unsubscribe? Write to',
       unsubscribeSubject: 'Unsubscribe',
     }),
@@ -99,15 +137,15 @@ const WELCOME_TEMPLATES = {
       '',
       'Thanks for signing up.',
       '',
-      'You\'ll hear from me next time something meaningful lands — new products, updates, or anything I think you should know. No spam ever, and you can unsubscribe with one click.',
+      "You'll hear from me next time something meaningful lands — new products, updates, or anything I think you should know. No spam ever, and you can unsubscribe with one click.",
       '',
-      'In the meantime, give the training app a try at fit.sorovibe.com if you haven\'t already.',
+      "In the meantime, give the training app a try at fit.sorovibe.com if you haven't already.",
       '',
       '— Soroush',
       'Sorovibe',
       '',
       '---',
-      'You\'re receiving this email because you signed up at sorovibe.com.',
+      "You're receiving this email because you signed up at sorovibe.com.",
       'Want to unsubscribe? Write to hello@sorovibe.com with subject "Unsubscribe".',
     ].join('\n'),
   },
@@ -178,6 +216,17 @@ export default async function handler(req) {
     return jsonResponse({ error: 'method_not_allowed' }, 405, cors);
   }
 
+  // Rate-limit pr. IP
+  const ip = getClientIp(req);
+  const rl = checkRateLimit(ip);
+  if (!rl.ok) {
+    return jsonResponse(
+      { error: 'rate_limited' },
+      429,
+      { ...cors, 'Retry-After': String(rl.retryAfter) }
+    );
+  }
+
   let payload;
   try {
     payload = await req.json();
@@ -196,10 +245,14 @@ export default async function handler(req) {
   const segmentId = process.env.RESEND_SEGMENT_ID;
 
   if (!apiKey || !segmentId) {
+    console.error('subscribe: server_misconfigured (missing RESEND_API_KEY or RESEND_SEGMENT_ID)');
     return jsonResponse({ error: 'server_misconfigured' }, 500, cors);
   }
 
-  let alreadySubscribed = false;
+  // Standard success-svar — identisk uanset om kontakten er ny eller eksisterende.
+  // (Forhindrer email-enumeration via response-difference.)
+  const successResponse = jsonResponse({ ok: true, lang }, 200, cors);
+  let isNewContact = false;
 
   try {
     const resp = await fetch('https://api.resend.com/contacts', {
@@ -215,29 +268,33 @@ export default async function handler(req) {
       }),
     });
 
-    if (!resp.ok) {
+    if (resp.ok) {
+      isNewContact = true;
+    } else {
       const data = await resp.json().catch(() => ({}));
       const msg = (data?.message || '').toLowerCase();
-      if (resp.status === 422 || msg.includes('already exists') || msg.includes('contact already')) {
-        alreadySubscribed = true;
-        // Allerede tilmeldt → spring welcome-email over, returnér success.
-        return jsonResponse({ ok: true, lang, alreadySubscribed }, 200, cors);
+      const alreadyExists =
+        resp.status === 422 ||
+        msg.includes('already exists') ||
+        msg.includes('contact already');
+
+      if (!alreadyExists) {
+        console.error('Resend contacts error', resp.status, data);
+        return successResponse;
       }
-      console.error('Resend contacts error', resp.status, data);
-      return jsonResponse({ error: 'subscribe_failed' }, 502, cors);
     }
   } catch (err) {
     console.error('Subscribe exception', err);
-    return jsonResponse({ error: 'network_error' }, 500, cors);
+    return successResponse;
   }
 
-  // Contact oprettet — send welcome-email. Hvis emailen fejler er signup
-  // stadig en succes; vi logger blot fejlen og returnerer ok til klienten.
-  try {
-    await sendWelcomeEmail(apiKey, email, lang);
-  } catch (err) {
-    console.error('Welcome email failed (signup still succeeded)', err);
+  if (isNewContact) {
+    try {
+      await sendWelcomeEmail(apiKey, email, lang);
+    } catch (err) {
+      console.error('Welcome email failed (signup still succeeded)', err);
+    }
   }
 
-  return jsonResponse({ ok: true, lang, alreadySubscribed }, 200, cors);
+  return successResponse;
 }

@@ -20,10 +20,17 @@
 <meta name="twitter:image" content="https://sorovibe.com/og-image.png">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="canonical" href="https://sorovibe.com/privacy.html">
+<link rel="alternate" hreflang="da" href="https://sorovibe.com/privacy.html">
+<link rel="alternate" hreflang="en" href="https://sorovibe.com/privacy.html?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://sorovibe.com/privacy.html">
 <style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/inter-400.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/inter-500.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/inter-600.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/inter-700.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:swap;src:url('/fonts/inter-800.woff2') format('woff2');}
 :root{
   --bg:#f7f6f3;--card:#fff;--border:#e8e6e1;--text:#1a1917;--muted:#888580;--hint:#c0bcb6;
   --input-bg:#f2f0ec;--green-bg:#eaf3de;--green-t:#3b6d11;--green-b:#97c459;
@@ -102,7 +109,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
   <!-- DANSK -->
   <div data-lang-block class="on" data-lang="da">
     <h1>Privatlivspolitik</h1>
-    <p class="meta">Senest opdateret: 15. maj 2026</p>
+    <p class="meta">Senest opdateret: 18. maj 2026</p>
     <p class="lead">Sorovibe respekterer dit privatliv. Denne side beskriver præcis hvad vi indsamler, hvordan vi bruger det, og hvilke rettigheder du har.</p>
 
     <h2>Hvem vi er</h2>
@@ -117,7 +124,14 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 
     <h2>Hvor dine data opbevares</h2>
     <p>Vi bruger <a href="https://resend.com" target="_blank" rel="noopener">Resend</a> til at administrere vores email-liste. Resend opbevarer data i EU (Dublin, Irland) og er GDPR-compliant. Du kan læse Resend's privatlivspolitik <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">her</a>.</p>
+    <p>Hvis du køber lifetime-adgang, behandler <a href="https://stripe.com" target="_blank" rel="noopener">Stripe</a> betalingen. Stripe modtager din emailadresse, betalingsinformation (kortdetaljer går aldrig gennem vores servere) og land. Stripe gemmer data i EU og er PCI-DSS- og GDPR-compliant. Se Stripe's <a href="https://stripe.com/privacy" target="_blank" rel="noopener">privatlivspolitik</a>.</p>
+    <p>Træningsappen (fit.sorovibe.com) bruger <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> til at opbevare din trænings- og kostlog. Supabase hostes i EU (Frankfurt). Data er beskyttet af row-level-security så kun du har adgang til dine egne data. Se Supabase's <a href="https://supabase.com/privacy" target="_blank" rel="noopener">privatlivspolitik</a>.</p>
     <p>Selve sitet hostes på <a href="https://vercel.com" target="_blank" rel="noopener">Vercel</a>, der gemmer standard hosting-logs (IP-adresse, browser-type, tidspunkt) i op til 30 dage af sikkerhedsmæssige årsager. Vi tilgår ikke disse logs til markedsføring.</p>
+
+    <h2>Hvad lifetime-adgang dækker</h2>
+    <p>Når du køber Early Supporter lifetime (199 kr), får du livslang adgang til <strong>Træningslog som den eksisterer på købstidspunktet</strong> — workout-log, kost-log, søvn-log, cardio-log, automatisk makroberegning, 8-ugers programmet og fremgangsdiagrammer. Du får også alle bug-fixes, sikkerheds-opdateringer og forbedringer af disse eksisterende features uden ekstra betaling, så længe Sorovibe drives.</p>
+    <p>Lifetime-adgangen omfatter <strong>ikke</strong>: fremtidige Pro-features (fx AI-coach, custom programmering ud over PPL, avancerede analyser, Apple Health- eller Google Fit-integration) eller helt nye Sorovibe-produkter (fx en separat mental-, søvn- eller vægttabsapp). Disse kan kræve separat betaling eller abonnement.</p>
+    <p>Hvis Sorovibe ophører som virksomhed eller appen lukker, modtager du forudgående varsel via email og — hvor det er teknisk muligt — en eksport af dine data. Du kan ikke kræve refusion for ophør efter mere end 14 dage fra købstidspunktet (jf. dansk forbrugerret om digitalt indhold).</p>
 
     <h2>Dine rettigheder under GDPR</h2>
     <p>Du har ret til at:</p>
@@ -139,7 +153,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
   <!-- ENGLISH -->
   <div data-lang-block data-lang="en">
     <h1>Privacy Policy</h1>
-    <p class="meta">Last updated: 15 May 2026</p>
+    <p class="meta">Last updated: 18 May 2026</p>
     <p class="lead">Sorovibe respects your privacy. This page describes exactly what we collect, how we use it, and what rights you have.</p>
 
     <h2>Who we are</h2>
@@ -154,7 +168,14 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 
     <h2>Where your data is stored</h2>
     <p>We use <a href="https://resend.com" target="_blank" rel="noopener">Resend</a> to manage our email list. Resend stores data in the EU (Dublin, Ireland) and is GDPR-compliant. You can read Resend's privacy policy <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">here</a>.</p>
+    <p>If you buy lifetime access, <a href="https://stripe.com" target="_blank" rel="noopener">Stripe</a> processes the payment. Stripe receives your email address, payment information (card details never pass through our servers) and country. Stripe stores data in the EU and is PCI-DSS- and GDPR-compliant. See Stripe's <a href="https://stripe.com/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
+    <p>The training app (fit.sorovibe.com) uses <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> to store your training and nutrition log. Supabase is hosted in the EU (Frankfurt). Data is protected by row-level-security so only you can access your own data. See Supabase's <a href="https://supabase.com/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
     <p>The site itself is hosted on <a href="https://vercel.com" target="_blank" rel="noopener">Vercel</a>, which stores standard hosting logs (IP address, browser type, timestamp) for up to 30 days for security purposes. We don't access these logs for marketing.</p>
+
+    <h2>What lifetime access covers</h2>
+    <p>When you buy the Early Supporter lifetime (199 DKK), you get lifelong access to <strong>Træningslog as it exists at the time of purchase</strong> — workout log, nutrition log, sleep log, cardio log, automatic macro calculation, the 8-week program and progress charts. You also receive all bug fixes, security updates and improvements to those existing features at no additional cost, for as long as Sorovibe operates.</p>
+    <p>Lifetime access does <strong>not</strong> include: future Pro features (such as AI coach, custom programming beyond PPL, advanced analytics, Apple Health or Google Fit integration) or entirely new Sorovibe products (such as a separate mental, sleep or weight-loss app). These may require separate payment or subscription.</p>
+    <p>If Sorovibe ceases operations or the app shuts down, you will receive advance notice by email and — where technically possible — an export of your data. You cannot claim a refund for shutdown occurring more than 14 days after the purchase date (per Danish consumer law regarding digital content).</p>
 
     <h2>Your rights under GDPR</h2>
     <p>You have the right to:</p>
