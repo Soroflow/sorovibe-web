@@ -1,28 +1,30 @@
-// Vercel Edge Function — modtager Stripe webhook events og registrerer
-// lifetime-køb i Supabase. Når Stripe sender 'checkout.session.completed':
-//   1. Verificer webhook-signatur via STRIPE_WEBHOOK_SECRET
-//   2. Indsæt række i `lifetime_purchases`-tabel i Supabase
-//   3. Hvis brugeren allerede har en konto (auth.users.email match),
-//      sæt raw_user_meta_data.lifetime_supporter = true så appen låser op
+// Vercel Edge Function — modtager Stripe webhook events for to produkter:
+//
+//   1) LIFETIME (one-time): Early Supporter 199 kr lifetime adgang
+//      Event: checkout.session.completed (mode=payment)
+//      Effekt: Insert i lifetime_purchases + sæt user_metadata.lifetime_supporter = true
+//
+//   2) MEDLEMSKAB (subscription): 349 kr/år recurring
+//      Events: checkout.session.completed (mode=subscription),
+//              customer.subscription.created/updated/deleted,
+//              invoice.paid, invoice.payment_failed
+//      Effekt: Upsert i subscriptions-tabel med status + current_period_end.
+//              get_my_access_status RPC læser denne tabel for AI-adgang.
 //
 // Påkrævede environment variables på Vercel:
-//   STRIPE_WEBHOOK_SECRET        — fra Stripe → Webhooks → endpoint signing secret (whsec_...)
+//   STRIPE_WEBHOOK_SECRET        — Stripe → Webhooks → endpoint signing secret (whsec_...)
 //   SUPABASE_URL                 — fx https://dktmdmleeaenntwknhxe.supabase.co
-//   SUPABASE_SERVICE_ROLE_KEY    — Supabase Settings → API → service_role key (HEMMELIG!)
+//   SUPABASE_SERVICE_ROLE_KEY    — Supabase Settings → API → service_role key (HEMMELIG)
 //
 // Frivillig:
-//   STRIPE_PRICE_ID              — hvis sat, valideres at købet matcher denne pris.
-//                                 Stopper at andre prices fra samme Stripe-konto trigger lifetime.
+//   STRIPE_PRICE_ID              — lifetime price-id (one-time 19900 DKK)
+//   STRIPE_MEMBERSHIP_PRICE_ID   — medlemskab price-id (recurring 34900 DKK/år)
 
 export const config = { runtime: 'edge' };
 
 // ── Stripe signature verification (HMAC-SHA256) ─────────────────────────
-// Stripe signerer payload med din webhook secret. Vi bruger Web Crypto API
-// (Edge runtime har det indbygget — ingen Node 'crypto' import nødvendig).
-
 async function verifyStripeSignature(rawBody, sigHeader, secret) {
   if (!sigHeader) return false;
-  // Stripe-Signature: "t=1234567890,v1=abc123..."
   const parts = sigHeader.split(',').reduce((acc, p) => {
     const [k, v] = p.split('=');
     acc[k] = v;
@@ -30,7 +32,7 @@ async function verifyStripeSignature(rawBody, sigHeader, secret) {
   }, {});
   if (!parts.t || !parts.v1) return false;
 
-  // Tjek timestamp er inden for 5 min — modvirker replay-attacks
+  // Replay-protection: 5-min vindue
   const ts = parseInt(parts.t, 10);
   const now = Math.floor(Date.now() / 1000);
   if (Math.abs(now - ts) > 300) return false;
@@ -58,11 +60,11 @@ async function verifyStripeSignature(rawBody, sigHeader, secret) {
   return diff === 0;
 }
 
-// ── Supabase helper ─────────────────────────────────────────────────────
+// ── Supabase REST helper ─────────────────────────────────────────────────
 async function supabaseRequest(path, opts = {}) {
   const url = process.env.SUPABASE_URL + path;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const resp = await fetch(url, {
+  return fetch(url, {
     ...opts,
     headers: {
       'apikey': key,
@@ -71,17 +73,32 @@ async function supabaseRequest(path, opts = {}) {
       ...(opts.headers || {}),
     },
   });
-  return resp;
 }
 
+// Slå auth.users op via email. Returner user-objekt eller null.
+async function findUserByEmail(email) {
+  if (!email) return null;
+  const resp = await supabaseRequest(
+    `/auth/v1/admin/users?filter=${encodeURIComponent('email.eq.' + email)}`,
+    { method: 'GET' }
+  );
+  if (!resp.ok) {
+    console.error('findUserByEmail failed', resp.status);
+    return null;
+  }
+  const data = await resp.json().catch(() => ({}));
+  return Array.isArray(data?.users) ? (data.users[0] || null) : null;
+}
+
+// ── LIFETIME flow (eksisterende — uændret adfærd) ───────────────────────
 async function recordLifetimePurchase(session) {
   const email = (session.customer_details?.email || session.customer_email || '').toLowerCase();
   if (!email) {
-    console.error('No email in Stripe session', session.id);
+    console.error('No email in lifetime session', session.id);
     return { ok: false, reason: 'no_email' };
   }
 
-  // 1. Indsæt i lifetime_purchases (idempotent via UNIQUE constraint på stripe_session_id)
+  // Insert i lifetime_purchases (idempotent via UNIQUE stripe_session_id)
   const insertResp = await supabaseRequest('/rest/v1/lifetime_purchases', {
     method: 'POST',
     headers: { 'Prefer': 'return=minimal,resolution=ignore-duplicates' },
@@ -98,42 +115,167 @@ async function recordLifetimePurchase(session) {
   if (!insertResp.ok && insertResp.status !== 409) {
     const errText = await insertResp.text();
     console.error('lifetime_purchases insert failed', insertResp.status, errText);
-    // Don't fail webhook — Stripe will retry, men hvis det er et schema-issue
-    // vil retry ikke hjælpe. Logger og returnerer success så Stripe ikke spammer.
   }
 
-  // 2. Slå op om brugeren allerede har en auth.users-konto med samme email
-  // og marker dem som lifetime_supporter via Admin API.
-  const lookupResp = await supabaseRequest(
-    `/auth/v1/admin/users?filter=${encodeURIComponent('email.eq.' + email)}`,
-    { method: 'GET' }
-  );
-  if (lookupResp.ok) {
-    const data = await lookupResp.json().catch(() => ({}));
-    const user = Array.isArray(data?.users) ? data.users[0] : null;
-    if (user?.id) {
-      const updateResp = await supabaseRequest(`/auth/v1/admin/users/${user.id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          user_metadata: {
-            ...(user.user_metadata || {}),
-            lifetime_supporter: true,
-            lifetime_purchased_at: new Date().toISOString(),
-          },
-        }),
-      });
-      if (!updateResp.ok) {
-        const errText = await updateResp.text();
-        console.error('user_metadata update failed', updateResp.status, errText);
-      }
+  // Marker bruger som lifetime_supporter hvis konto findes
+  const user = await findUserByEmail(email);
+  if (user?.id) {
+    const updateResp = await supabaseRequest(`/auth/v1/admin/users/${user.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        user_metadata: {
+          ...(user.user_metadata || {}),
+          lifetime_supporter: true,
+          lifetime_purchased_at: new Date().toISOString(),
+        },
+      }),
+    });
+    if (!updateResp.ok) {
+      const errText = await updateResp.text();
+      console.error('lifetime user_metadata update failed', updateResp.status, errText);
     }
-    // Hvis ingen bruger findes: rækken i lifetime_purchases bliver brugt
-    // ved næste signup (eller et separat job sync'er det). Se STRIPE_SETUP.md.
-  } else {
-    console.error('auth user lookup failed', lookupResp.status);
   }
 
   return { ok: true };
+}
+
+// ── MEDLEMSKAB flow (NY) ────────────────────────────────────────────────
+// Upsert subscription-state i public.subscriptions. Idempotent via UNIQUE user_id.
+
+async function upsertSubscription({ userId, customerId, subscriptionId, status, currentPeriodEnd, cancelledAt }) {
+  if (!userId || !customerId || !subscriptionId) {
+    console.error('upsertSubscription missing required fields', { userId: !!userId, customerId: !!customerId, subscriptionId: !!subscriptionId });
+    return { ok: false, reason: 'missing_fields' };
+  }
+  const resp = await supabaseRequest('/rest/v1/subscriptions?on_conflict=user_id', {
+    method: 'POST',
+    headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+    body: JSON.stringify({
+      user_id: userId,
+      stripe_customer_id: customerId,
+      stripe_subscription_id: subscriptionId,
+      status,
+      current_period_end: currentPeriodEnd,
+      cancelled_at: cancelledAt,
+    }),
+  });
+  if (!resp.ok) {
+    const errText = await resp.text();
+    console.error('subscriptions upsert failed', resp.status, errText);
+    return { ok: false, reason: 'upsert_failed' };
+  }
+  return { ok: true };
+}
+
+// Slå user_id op via stripe_customer_id i subscriptions-tabel.
+// Bruges når subscription.* events kommer uden email (kun customer_id).
+async function findUserIdByCustomerId(customerId) {
+  if (!customerId) return null;
+  const resp = await supabaseRequest(
+    `/rest/v1/subscriptions?stripe_customer_id=eq.${encodeURIComponent(customerId)}&select=user_id&limit=1`,
+    { method: 'GET' }
+  );
+  if (!resp.ok) {
+    console.error('findUserIdByCustomerId failed', resp.status);
+    return null;
+  }
+  const rows = await resp.json().catch(() => []);
+  return Array.isArray(rows) && rows[0] ? rows[0].user_id : null;
+}
+
+// Handler: checkout.session.completed med mode=subscription
+// Dette er FØRSTE event når bruger gennemfører subscription-checkout.
+// Vi linker stripe_customer_id → user_id via email her, så subsequent
+// customer.subscription.* events kan finde brugeren via customer_id alene.
+async function handleSubscriptionCheckout(session) {
+  const email = (session.customer_details?.email || session.customer_email || '').toLowerCase();
+  const customerId = session.customer;
+  const subscriptionId = session.subscription;
+  if (!email || !customerId || !subscriptionId) {
+    console.error('subscription checkout missing fields', { hasEmail: !!email, customerId, subscriptionId });
+    return { ok: false, reason: 'missing_fields' };
+  }
+
+  const user = await findUserByEmail(email);
+  if (!user?.id) {
+    // Edge case: bruger har ikke konto endnu. Skal vi creater? Nej — kræver email-verification.
+    // I stedet logger vi og venter på at customer.subscription.* events kommer ind.
+    // De vil fejle indtil brugeren signer op med samme email. Et separat sync-job kan retroaktivt
+    // matche disse — eller bruger kontakter support.
+    console.warn('Subscription checkout for unregistered email', email, 'subscription:', subscriptionId);
+    return { ok: false, reason: 'no_user' };
+  }
+
+  // Hent fuld subscription fra Stripe API for at få status + current_period_end
+  const sub = await fetchStripeSubscription(subscriptionId);
+  if (!sub) {
+    console.error('Could not fetch subscription from Stripe', subscriptionId);
+    return { ok: false, reason: 'stripe_fetch_failed' };
+  }
+
+  return upsertSubscription({
+    userId: user.id,
+    customerId,
+    subscriptionId,
+    status: sub.status,
+    currentPeriodEnd: new Date(sub.current_period_end * 1000).toISOString(),
+    cancelledAt: sub.cancel_at ? new Date(sub.cancel_at * 1000).toISOString() : null,
+  });
+}
+
+// Hent subscription-objekt fra Stripe API. Bruges når event kun har customer_id.
+async function fetchStripeSubscription(subscriptionId) {
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  if (!stripeKey) {
+    console.error('STRIPE_SECRET_KEY not set — cannot fetch subscription details');
+    return null;
+  }
+  const resp = await fetch(`https://api.stripe.com/v1/subscriptions/${subscriptionId}`, {
+    headers: { 'Authorization': `Bearer ${stripeKey}` },
+  });
+  if (!resp.ok) {
+    console.error('Stripe subscription fetch failed', resp.status);
+    return null;
+  }
+  return resp.json().catch(() => null);
+}
+
+// Handler: customer.subscription.created/updated/deleted
+// Stripe sender subscription-objektet direkte i event.data.object.
+async function handleSubscriptionEvent(subscription, eventType) {
+  const customerId = subscription.customer;
+  const subscriptionId = subscription.id;
+  if (!customerId || !subscriptionId) {
+    return { ok: false, reason: 'missing_fields' };
+  }
+
+  // Map subscription state: deleted-events markeres som cancelled.
+  let status = subscription.status;
+  let cancelledAt = subscription.cancel_at ? new Date(subscription.cancel_at * 1000).toISOString() : null;
+  if (eventType === 'customer.subscription.deleted') {
+    status = 'cancelled';
+    cancelledAt = new Date().toISOString();
+  }
+
+  // Find user via customer_id (tidligere mappet i handleSubscriptionCheckout).
+  const userId = await findUserIdByCustomerId(customerId);
+  if (!userId) {
+    // Bruger ikke fundet — kunne være race med checkout.session.completed.
+    // Stripe retry'er events ved fejl, så vi returnerer 200 og lader Stripe forsøge igen senere.
+    console.warn('No user mapping for customer', customerId, '— event ignored');
+    return { ok: false, reason: 'no_user_mapping' };
+  }
+
+  return upsertSubscription({
+    userId,
+    customerId,
+    subscriptionId,
+    status,
+    currentPeriodEnd: subscription.current_period_end
+      ? new Date(subscription.current_period_end * 1000).toISOString()
+      : new Date().toISOString(),
+    cancelledAt,
+  });
 }
 
 // ── HANDLER ────────────────────────────────────────────────────────────
@@ -164,42 +306,53 @@ export default async function handler(req) {
     return new Response('Invalid JSON', { status: 400 });
   }
 
-  // Vi reagerer kun på checkout.session.completed
-  if (event.type !== 'checkout.session.completed') {
-    return new Response(JSON.stringify({ received: true, ignored: event.type }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-
-  const session = event.data?.object;
-  if (!session) {
-    return new Response('Missing session', { status: 400 });
-  }
-
-  // Validér payment_status og at det er en lifetime-bestilling
-  if (session.payment_status !== 'paid') {
-    return new Response(JSON.stringify({ received: true, ignored: 'unpaid' }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-
-  // Valgfri price-validering for at undgå at andre Stripe-products trigger lifetime
-  const expectedPriceId = process.env.STRIPE_PRICE_ID;
-  if (expectedPriceId) {
-    // line_items kommer ikke automatisk med — vi tjekker hellere amount + currency
-    // mod hvad vi forventer (199 DKK = 19900 øre).
-    // Sat her som soft-check: log men accepter, så vi ikke afviser legit køb.
-    if (session.amount_total !== 19900 || session.currency !== 'dkk') {
-      console.warn('Unexpected amount/currency', session.amount_total, session.currency);
-    }
+  const eventType = event.type;
+  const obj = event.data?.object;
+  if (!obj) {
+    return new Response('Missing object', { status: 400 });
   }
 
   try {
-    await recordLifetimePurchase(session);
+    if (eventType === 'checkout.session.completed') {
+      const mode = obj.mode;
+      if (mode === 'payment') {
+        // Lifetime one-time payment
+        if (obj.payment_status !== 'paid') {
+          return new Response(JSON.stringify({ received: true, ignored: 'unpaid' }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
+        await recordLifetimePurchase(obj);
+      } else if (mode === 'subscription') {
+        // Medlemskab — link customer_id → user_id og opret subscription-row
+        await handleSubscriptionCheckout(obj);
+      } else {
+        console.warn('Unknown checkout mode', mode);
+      }
+    } else if (
+      eventType === 'customer.subscription.created' ||
+      eventType === 'customer.subscription.updated' ||
+      eventType === 'customer.subscription.deleted'
+    ) {
+      await handleSubscriptionEvent(obj, eventType);
+    } else if (eventType === 'invoice.paid') {
+      // Renewal succeeded — refresh subscription state ved at hente fra Stripe.
+      // (Stripe sender også customer.subscription.updated samtidig, så dette er
+      // primært defensiv backup hvis subscription-updated går tabt.)
+      if (obj.subscription) {
+        const sub = await fetchStripeSubscription(obj.subscription);
+        if (sub) await handleSubscriptionEvent(sub, 'customer.subscription.updated');
+      }
+    } else if (eventType === 'invoice.payment_failed') {
+      // Payment fejlede — Stripe markerer typisk subscription som past_due via
+      // separat customer.subscription.updated event. Vi gør intet ekstra her,
+      // men logger til debugging.
+      console.log('invoice.payment_failed for subscription', obj.subscription);
+    }
+    // Andre events ignoreres
   } catch (err) {
-    console.error('recordLifetimePurchase threw', err);
+    console.error('Webhook handler threw', err?.message || err);
     // Returner 200 alligevel — undgå at Stripe retry'er evigt på recoverable fejl
   }
 

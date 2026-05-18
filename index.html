@@ -108,14 +108,24 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 .early-supporter a{color:var(--amber-t);text-decoration:none;font-weight:600;border-bottom:1px solid var(--amber-bg);}
 .early-supporter a:hover{border-bottom-color:var(--amber-t);}
 
-/* Early Supporter pricing-boks — primary conversion CTA */
-.pricing-box{background:linear-gradient(135deg,var(--amber-bg),var(--card));border:1px solid var(--amber-t);border-radius:22px;padding:28px;margin-top:24px;box-shadow:var(--shadow);text-align:center;}
-@media(max-width:640px){.pricing-box{padding:24px 20px;margin-top:20px;}}
-.pricing-eyebrow{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber-t);background:var(--card);padding:5px 12px;border-radius:999px;margin-bottom:14px;border:1px solid var(--amber-t);}
-.pricing-title{font-size:clamp(24px,4vw,30px);font-weight:800;letter-spacing:-0.02em;margin-bottom:10px;line-height:1.2;}
-.pricing-sub{font-size:15px;color:var(--text);max-width:480px;margin:0 auto 18px;line-height:1.55;}
-.pricing-counter{font-size:13px;color:var(--amber-t);font-weight:600;margin-bottom:20px;}
-.pricing-btn{background:var(--text);color:var(--bg);border:none;border-radius:12px;padding:15px 28px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s ease;box-shadow:var(--shadow);}
+/* Pricing — to-tier grid: Lifetime (deadline) + Medlemskab (recurring) */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:24px;}
+@media(max-width:720px){.pricing-grid{grid-template-columns:1fr;gap:14px;margin-top:20px;}}
+.pricing-box{background:linear-gradient(135deg,var(--amber-bg),var(--card));border:1px solid var(--amber-t);border-radius:22px;padding:28px;box-shadow:var(--shadow);text-align:center;display:flex;flex-direction:column;}
+.pricing-box.membership{background:linear-gradient(135deg,var(--teal-bg),var(--card));border-color:var(--teal-t);}
+@media(max-width:640px){.pricing-box{padding:24px 20px;}}
+.pricing-eyebrow{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber-t);background:var(--card);padding:5px 12px;border-radius:999px;margin-bottom:14px;border:1px solid var(--amber-t);align-self:center;}
+.pricing-box.membership .pricing-eyebrow{color:var(--teal-t);border-color:var(--teal-t);}
+.pricing-deadline{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--card);background:var(--amber-t);padding:4px 11px;border-radius:999px;margin-bottom:14px;align-self:center;}
+.pricing-deadline::before{content:'⏳';font-size:13px;}
+.pricing-title{font-size:clamp(22px,3.5vw,28px);font-weight:800;letter-spacing:-0.02em;margin-bottom:10px;line-height:1.2;}
+.pricing-sub{font-size:14.5px;color:var(--text);margin:0 auto 16px;line-height:1.55;}
+.pricing-counter{font-size:13px;color:var(--amber-t);font-weight:600;margin-bottom:16px;}
+.pricing-box.membership .pricing-counter{color:var(--teal-t);}
+.pricing-features{font-size:13.5px;color:var(--text);line-height:1.6;margin:0 0 18px;text-align:left;padding-left:22px;}
+.pricing-features li{padding:3px 0;list-style:none;position:relative;}
+.pricing-features li::before{content:'';position:absolute;left:-22px;top:9px;width:11px;height:6px;border-left:2px solid var(--green-t);border-bottom:2px solid var(--green-t);transform:rotate(-45deg);}
+.pricing-btn{background:var(--text);color:var(--bg);border:none;border-radius:12px;padding:14px 24px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s ease;box-shadow:var(--shadow);margin-top:auto;}
 .pricing-btn:active{transform:scale(.96);}
 .pricing-fine{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.5;}
 
@@ -531,8 +541,9 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
           <li>Cardio-log med ACSM/MET-formler (walk, løb, cykel, HIIT m.fl.) — Zone 2 puls-hint, 14-dages chart</li>
           <li>Søvn-tracking pr. nat med kvalitet 1-5 + aldersbaseret target (NSF guidelines)</li>
           <li>Køns-specifik BMR + automatisk makro-beregning (Mifflin-St Jeor)</li>
+          <li>AI-måltidsscanning (Medlemskab) — fotografér din mad, AI estimerer makroer</li>
           <li>Citerede kilder — hvert tal i appen er klik-bart til forskningen bag</li>
-          <li>Lifetime-pris — ingen abonnement, ingen ads, ingen data-salg</li>
+          <li>Lifetime eller årligt medlemskab — du vælger. Ingen ads, ingen data-salg</li>
           <li>Bilingual, offline, installerbar som app</li>
         </ul>
         <ul class="feature-list" data-lang-list data-lang="en">
@@ -540,8 +551,9 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
           <li>Cardio log with ACSM/MET formulas (walk, run, bike, HIIT etc.) — Zone 2 heart-rate hint, 14-day chart</li>
           <li>Sleep tracking per night with quality 1-5 + age-based target (NSF guidelines)</li>
           <li>Sex-specific BMR + automatic macro calculation (Mifflin-St Jeor)</li>
+          <li>AI meal scanning (Membership) — photograph your food, AI estimates the macros</li>
           <li>Cited sources — every number in the app links to the research behind it</li>
-          <li>Lifetime pricing — no subscription, no ads, no data selling</li>
+          <li>Lifetime or annual membership — your choice. No ads, no data selling</li>
           <li>Bilingual, offline, installable as an app</li>
         </ul>
         <div class="product-cta">
@@ -572,32 +584,69 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
       </div>
     </div>
 
-    <!-- EARLY SUPPORTER pricing-boks -->
-    <div class="pricing-box" id="early-supporter">
-      <span class="pricing-eyebrow">
-        <span data-lang class="on" data-lang-id="da">Early Supporter</span>
-        <span data-lang data-lang-id="en">Early Supporter</span>
-      </span>
-      <h3 class="pricing-title">
-        <span data-lang-block class="on" data-lang="da">199 kr — lifetime adgang</span>
-        <span data-lang-block data-lang="en">199 DKK <span style="font-size:0.55em;font-weight:500;color:var(--muted);white-space:nowrap;">(≈ €27 / $29)</span> — lifetime access</span>
-      </h3>
-      <p class="pricing-sub">
-        <span data-lang-block class="on" data-lang="da">Træningslog som den fungerer i dag — workout, kost, søvn og cardio — plus alle bug-fixes og forbedringer af disse features. For altid. Ingen abonnement, ingen ads, ingen data-salg. De første 100 brugere får denne pris — derefter stiger den.</span>
-        <span data-lang-block data-lang="en">Training log as it works today — workout, nutrition, sleep and cardio — plus all bug fixes and improvements to these features. Forever. No subscription, no ads, no data selling. The first 100 users get this price — it goes up after that.</span>
-      </p>
-      <div class="pricing-counter" id="pricingCounter">
-        <span data-lang-block class="on" data-lang="da"><span class="lifetime-count">0</span> af 100 pladser solgt</span>
-        <span data-lang-block data-lang="en"><span class="lifetime-count">0</span> of 100 spots sold</span>
+    <!-- PRICING — to bokse: Lifetime (deadline 1. aug 2026) + Medlemskab (recurring) -->
+    <div class="pricing-grid" id="early-supporter">
+
+      <!-- LIFETIME (Early Supporter — deadline 1. august 2026) -->
+      <div class="pricing-box">
+        <span class="pricing-deadline">
+          <span data-lang class="on" data-lang-id="da">Kun indtil 1. august 2026</span>
+          <span data-lang data-lang-id="en">Only until August 1st, 2026</span>
+        </span>
+        <span class="pricing-eyebrow">
+          <span data-lang class="on" data-lang-id="da">Early Supporter Lifetime</span>
+          <span data-lang data-lang-id="en">Early Supporter Lifetime</span>
+        </span>
+        <h3 class="pricing-title">
+          <span data-lang-block class="on" data-lang="da">199 kr — for altid</span>
+          <span data-lang-block data-lang="en">199 DKK <span style="font-size:0.55em;font-weight:500;color:var(--muted);white-space:nowrap;">(≈ €27 / $29)</span> — forever</span>
+        </h3>
+        <p class="pricing-sub">
+          <span data-lang-block class="on" data-lang="da">Træningslog som den er i dag — workout, manuel makro-log, kropsmålinger, cardio og søvn — plus alle bug-fixes og forbedringer. Engangsbetaling, ingen abonnement, ingen ads. <strong>AI-måltidsscanning er ikke inkluderet</strong> (kræver Medlemskab).</span>
+          <span data-lang-block data-lang="en">Training log as it is today — workout, manual macro log, body measurements, cardio and sleep — plus all bug fixes and improvements. One-time payment, no subscription, no ads. <strong>AI meal scanning is not included</strong> (requires Membership).</span>
+        </p>
+        <div class="pricing-counter">
+          <span data-lang-block class="on" data-lang="da"><span class="lifetime-count">0</span> af 100 pladser solgt</span>
+          <span data-lang-block data-lang="en"><span class="lifetime-count">0</span> of 100 spots sold</span>
+        </div>
+        <a href="https://buy.stripe.com/6oU5kw3SfbIgbBP6fj5wI00" class="pricing-btn" id="lifetimeBtn" rel="noopener noreferrer">
+          <span data-lang class="on" data-lang-id="da">Køb lifetime →</span>
+          <span data-lang data-lang-id="en">Buy lifetime →</span>
+        </a>
+        <p class="pricing-fine">
+          <span data-lang-block class="on" data-lang="da">Adgang aktiveres efter betaling. 14 dages fortrydelsesret (EU-forbrugerlov). Efter 1. august 2026 sælges lifetime ikke længere — kun årligt medlemskab.</span>
+          <span data-lang-block data-lang="en">Access activated after payment. 14-day right of withdrawal (EU consumer law). After August 1st, 2026, lifetime is no longer sold — only annual membership.</span>
+        </p>
       </div>
-      <a href="https://buy.stripe.com/6oU5kw3SfbIgbBP6fj5wI00" class="pricing-btn" id="lifetimeBtn" rel="noopener noreferrer">
-        <span data-lang class="on" data-lang-id="da">Køb lifetime →</span>
-        <span data-lang data-lang-id="en">Buy lifetime →</span>
-      </a>
-      <p class="pricing-fine">
-        <span data-lang-block class="on" data-lang="da">Du opretter en konto, og lifetime-adgangen aktiveres efter betaling. 14 dages fortrydelsesret jf. EU-forbrugerlov. <strong>Ikke inkluderet:</strong> fremtidige Pro-features som AI-coach, custom programmering, Apple Health / Google Fit-integration eller andre helt nye Sorovibe-produkter — disse kan kræve separat betaling.</span>
-        <span data-lang-block data-lang="en">You create an account and lifetime access is activated after payment. 14-day right of withdrawal per EU consumer law. <strong>Not included:</strong> future Pro features like AI coach, custom programming, Apple Health / Google Fit integration, or entirely new Sorovibe products — these may require separate payment.</span>
-      </p>
+
+      <!-- MEDLEMSKAB (Recurring 349 kr/år — inkluderer AI) -->
+      <div class="pricing-box membership">
+        <span class="pricing-eyebrow">
+          <span data-lang class="on" data-lang-id="da">Medlemskab</span>
+          <span data-lang data-lang-id="en">Membership</span>
+        </span>
+        <h3 class="pricing-title">
+          <span data-lang-block class="on" data-lang="da">349 kr / år</span>
+          <span data-lang-block data-lang="en">349 DKK <span style="font-size:0.55em;font-weight:500;color:var(--muted);white-space:nowrap;">(≈ €47 / $52)</span> / year</span>
+        </h3>
+        <p class="pricing-sub">
+          <span data-lang-block class="on" data-lang="da">Alt fra Træningslog plus <strong>AI-måltidsscanning</strong> (5 scans pr. dag). Fotografér din mad — AI estimerer makroer du kan justere og gemme. Start med 4 ugers gratis trial — opsig når som helst.</span>
+          <span data-lang-block data-lang="en">Everything in Training log plus <strong>AI meal scanning</strong> (5 scans per day). Photograph your food — AI estimates the macros, you adjust and save. Start with a 4-week free trial — cancel anytime.</span>
+        </p>
+        <div class="pricing-counter">
+          <span data-lang-block class="on" data-lang="da">4 ugers gratis trial · ingen kort krævet ved start</span>
+          <span data-lang-block data-lang="en">4-week free trial · no card required to start</span>
+        </div>
+        <a href="https://fit.sorovibe.com" class="pricing-btn" id="membershipBtn" rel="noopener noreferrer">
+          <span data-lang class="on" data-lang-id="da">Start gratis trial →</span>
+          <span data-lang data-lang-id="en">Start free trial →</span>
+        </a>
+        <p class="pricing-fine">
+          <span data-lang-block class="on" data-lang="da">Trial er gratis i 4 uger. Derefter 349 kr/år automatisk fornyelse — du kan opsige fra dag 1 uden ekstra omkostning. AI-makroer er estimater du kan justere før du gemmer. Billeder slettes inden for 60 sekunder efter analyse.</span>
+          <span data-lang-block data-lang="en">Free for 4 weeks. After that 349 DKK/year auto-renewal — cancel anytime from day 1 with no extra cost. AI macros are estimates you can adjust before saving. Images are deleted within 60 seconds of analysis.</span>
+        </p>
+      </div>
+
     </div>
   </section>
 
