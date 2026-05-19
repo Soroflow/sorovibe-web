@@ -223,8 +223,8 @@ async function handleSubscriptionCheckout(session) {
     customerId,
     subscriptionId,
     status: sub.status,
-    currentPeriodEnd: new Date(sub.current_period_end * 1000).toISOString(),
-    cancelledAt: sub.cancel_at ? new Date(sub.cancel_at * 1000).toISOString() : null,
+    currentPeriodEnd: extractPeriodEnd(sub),
+    cancelledAt: extractCancelledAt(sub),
   });
 }
 
@@ -245,6 +245,38 @@ async function fetchStripeSubscription(subscriptionId) {
   return resp.json().catch(() => null);
 }
 
+// Extract current_period_end fra subscription. Stripe API 2025-03+ har flyttet feltet
+// fra subscription-niveau til subscription.items.data[0]. Vi prøver begge for kompatibilitet.
+// Returnerer ISO-string. Falder tilbage til "now + 1 year" hvis intet kan parses.
+function extractPeriodEnd(sub) {
+  const itemEnd = sub?.items?.data?.[0]?.current_period_end;
+  const subEnd = sub?.current_period_end;
+  const ts = (typeof itemEnd === 'number' ? itemEnd : null) ||
+             (typeof subEnd === 'number' ? subEnd : null);
+  if (ts && ts > 0) {
+    const d = new Date(ts * 1000);
+    if (!isNaN(d.getTime())) return d.toISOString();
+  }
+  // Fallback: defensiv — 1 år frem. Webhook bør stadig lykkes så vi har EN row.
+  console.warn('extractPeriodEnd: no valid timestamp found, using fallback', {
+    itemEnd, subEnd, sub_id: sub?.id
+  });
+  const fallback = new Date();
+  fallback.setFullYear(fallback.getFullYear() + 1);
+  return fallback.toISOString();
+}
+
+// Extract cancelled_at fra subscription. Stripe kalder feltet både cancel_at og canceled_at
+// afhængigt af API-version og context.
+function extractCancelledAt(sub) {
+  const ts = sub?.canceled_at || sub?.cancel_at;
+  if (typeof ts === 'number' && ts > 0) {
+    const d = new Date(ts * 1000);
+    if (!isNaN(d.getTime())) return d.toISOString();
+  }
+  return null;
+}
+
 // Handler: customer.subscription.created/updated/deleted
 // Stripe sender subscription-objektet direkte i event.data.object.
 async function handleSubscriptionEvent(subscription, eventType) {
@@ -256,10 +288,10 @@ async function handleSubscriptionEvent(subscription, eventType) {
 
   // Map subscription state: deleted-events markeres som cancelled.
   let status = subscription.status;
-  let cancelledAt = subscription.cancel_at ? new Date(subscription.cancel_at * 1000).toISOString() : null;
+  let cancelledAt = extractCancelledAt(subscription);
   if (eventType === 'customer.subscription.deleted') {
     status = 'cancelled';
-    cancelledAt = new Date().toISOString();
+    if (!cancelledAt) cancelledAt = new Date().toISOString();
   }
 
   // Find user via customer_id (tidligere mappet i handleSubscriptionCheckout).
@@ -276,9 +308,7 @@ async function handleSubscriptionEvent(subscription, eventType) {
     customerId,
     subscriptionId,
     status,
-    currentPeriodEnd: subscription.current_period_end
-      ? new Date(subscription.current_period_end * 1000).toISOString()
-      : new Date().toISOString(),
+    currentPeriodEnd: extractPeriodEnd(subscription),
     cancelledAt,
   });
 }
