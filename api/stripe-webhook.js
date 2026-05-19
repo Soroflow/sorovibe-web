@@ -75,19 +75,24 @@ async function supabaseRequest(path, opts = {}) {
   });
 }
 
-// Slå auth.users op via email. Returner user-objekt eller null.
+// Slå auth.users op via email via SECURITY DEFINER RPC.
+// Supabase Auth Admin API har INGEN filter-by-email — derfor RPC.
+// Returnerer {id, user_metadata} eller null.
 async function findUserByEmail(email) {
   if (!email) return null;
-  const resp = await supabaseRequest(
-    `/auth/v1/admin/users?filter=${encodeURIComponent('email.eq.' + email)}`,
-    { method: 'GET' }
-  );
+  const resp = await supabaseRequest('/rest/v1/rpc/find_user_by_email', {
+    method: 'POST',
+    body: JSON.stringify({ p_email: email }),
+  });
   if (!resp.ok) {
-    console.error('findUserByEmail failed', resp.status);
+    const errText = await resp.text().catch(() => '');
+    console.error('findUserByEmail RPC failed', resp.status, errText.slice(0, 200));
     return null;
   }
-  const data = await resp.json().catch(() => ({}));
-  return Array.isArray(data?.users) ? (data.users[0] || null) : null;
+  const user = await resp.json().catch(() => null);
+  // RPC returnerer null hvis ingen match, eller {id, user_metadata}
+  if (!user || !user.id) return null;
+  return user;
 }
 
 // ── LIFETIME flow (eksisterende — uændret adfærd) ───────────────────────
