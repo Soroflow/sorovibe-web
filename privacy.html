@@ -109,7 +109,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
   <!-- DANSK -->
   <div data-lang-block class="on" data-lang="da">
     <h1>Privatlivspolitik</h1>
-    <p class="meta">Senest opdateret: 18. maj 2026</p>
+    <p class="meta">Senest opdateret: 19. maj 2026 (v3 — tilføjet medlemskab, AI-måltidsscanning, OpenAI som processor)</p>
     <p class="lead">Sorovibe respekterer dit privatliv. Denne side beskriver præcis hvad vi indsamler, hvordan vi bruger det, og hvilke rettigheder du har.</p>
 
     <h2>Hvem vi er</h2>
@@ -124,14 +124,26 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 
     <h2>Hvor dine data opbevares</h2>
     <p>Vi bruger <a href="https://resend.com" target="_blank" rel="noopener">Resend</a> til at administrere vores email-liste. Resend opbevarer data i EU (Dublin, Irland) og er GDPR-compliant. Du kan læse Resend's privatlivspolitik <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">her</a>.</p>
-    <p>Hvis du køber lifetime-adgang, behandler <a href="https://stripe.com" target="_blank" rel="noopener">Stripe</a> betalingen. Stripe modtager din emailadresse, betalingsinformation (kortdetaljer går aldrig gennem vores servere) og land. Stripe gemmer data i EU og er PCI-DSS- og GDPR-compliant. Se Stripe's <a href="https://stripe.com/privacy" target="_blank" rel="noopener">privatlivspolitik</a>.</p>
-    <p>Træningsappen (fit.sorovibe.com) bruger <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> til at opbevare din trænings- og kostlog. Supabase hostes i EU (Frankfurt). Data er beskyttet af row-level-security så kun du har adgang til dine egne data. Se Supabase's <a href="https://supabase.com/privacy" target="_blank" rel="noopener">privatlivspolitik</a>.</p>
+    <p>Hvis du køber lifetime eller medlemskab, behandler <a href="https://stripe.com" target="_blank" rel="noopener">Stripe</a> betalingen. Stripe modtager din emailadresse, betalingsinformation (kortdetaljer går aldrig gennem vores servere), land og — for medlemskab — gemmer kort-token til automatisk fornyelse. Stripe gemmer data i EU og er PCI-DSS- og GDPR-compliant. Se Stripe's <a href="https://stripe.com/privacy" target="_blank" rel="noopener">privatlivspolitik</a>.</p>
+    <p>Træningsappen (fit.sorovibe.com) bruger <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> til at opbevare din trænings- og kostlog, samt abonnements-status og trial-tidspunkt (registreringsdato + 4 ugers periode). Supabase hostes i EU (Frankfurt). Data er beskyttet af row-level-security så kun du har adgang til dine egne data. Se Supabase's <a href="https://supabase.com/privacy" target="_blank" rel="noopener">privatlivspolitik</a>.</p>
+    <p>Hvis du har medlemskab og bruger AI-måltidsscanning, sendes dit billede til <a href="https://openai.com" target="_blank" rel="noopener">OpenAI</a>'s vision-model til analyse. OpenAI behandler billedet efter deres <a href="https://openai.com/policies/business-terms" target="_blank" rel="noopener">API-business-terms</a>: billedet gemmes op til 30 dage til misbrugs-detektion, OpenAI træner <strong>ikke</strong> modeller på det, og det slettes derefter. På vores side gemmer vi <strong>aldrig</strong> billedet — det forlader vores Vercel Edge-funktion inden for 60 sekunder. Vi gemmer kun et tidsstempel (uden billede) for at håndhæve 5-scans-pr.-dag-grænsen. Se OpenAI's <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">privatlivspolitik</a>.</p>
     <p>Selve sitet hostes på <a href="https://vercel.com" target="_blank" rel="noopener">Vercel</a>, der gemmer standard hosting-logs (IP-adresse, browser-type, tidspunkt) i op til 30 dage af sikkerhedsmæssige årsager. Vi tilgår ikke disse logs til markedsføring.</p>
 
     <h2>Hvad lifetime-adgang dækker</h2>
-    <p>Når du køber Early Supporter lifetime (199 kr), får du livslang adgang til <strong>Træningslog som den eksisterer på købstidspunktet</strong> — workout-log, kost-log, søvn-log, cardio-log, automatisk makroberegning, 8-ugers programmet og fremgangsdiagrammer. Du får også alle bug-fixes, sikkerheds-opdateringer og forbedringer af disse eksisterende features uden ekstra betaling, så længe Sorovibe drives.</p>
-    <p>Lifetime-adgangen omfatter <strong>ikke</strong>: fremtidige Pro-features (fx AI-coach, custom programmering ud over PPL, avancerede analyser, Apple Health- eller Google Fit-integration) eller helt nye Sorovibe-produkter (fx en separat mental-, søvn- eller vægttabsapp). Disse kan kræve separat betaling eller abonnement.</p>
+    <p>Når du køber Early Supporter lifetime (199 kr engangsbetaling, kun tilgængelig indtil 1. august 2026), får du livslang adgang til <strong>Træningslog som den eksisterer på købstidspunktet</strong> — workout-log, kost-log, søvn-log, cardio-log, automatisk makroberegning, 8-ugers programmet og fremgangsdiagrammer. Du får også alle bug-fixes, sikkerheds-opdateringer og forbedringer af disse eksisterende features uden ekstra betaling, så længe Sorovibe drives.</p>
+    <p>Lifetime-adgangen omfatter <strong>ikke</strong>: AI-måltidsscanning, fremtidige medlemskab-only AI-features, eller helt nye Sorovibe-produkter (fx en separat mental-, søvn- eller vægttabsapp). Disse kræver medlemskab eller separat betaling.</p>
+    <p>14 dages fortrydelsesret efter EU-forbrugerret: kontakt <a href="mailto:hello@sorovibe.com">hello@sorovibe.com</a> inden 14 dage fra købstidspunktet for fuld refundering.</p>
     <p>Hvis Sorovibe ophører som virksomhed eller appen lukker, modtager du forudgående varsel via email og — hvor det er teknisk muligt — en eksport af dine data. Du kan ikke kræve refusion for ophør efter mere end 14 dage fra købstidspunktet (jf. dansk forbrugerret om digitalt indhold).</p>
+
+    <h2>Hvad medlemskab dækker</h2>
+    <p>Medlemskab er et årligt abonnement på 349 kr/år der dækker hele Træningslog plus AI-måltidsscanning (op til 5 scans pr. dag).</p>
+    <ul>
+      <li><strong>4 ugers gratis trial:</strong> du behøver ikke indtaste kort for at starte. Betaling sker først hvis du vælger at fortsætte efter trial.</li>
+      <li><strong>Automatisk fornyelse:</strong> medlemskabet fornyer automatisk hvert år til samme pris (medmindre vi varsler en prisændring mindst 30 dage før — se servicebetingelserne).</li>
+      <li><strong>Opsigelse:</strong> skriv til <a href="mailto:hello@sorovibe.com">hello@sorovibe.com</a> for at opsige. Medlemskabet løber til periodens slutning — du får ikke pro rata-refundering, men din adgang bevares indtil periodens udløb.</li>
+      <li><strong>14 dages fortrydelsesret:</strong> på din første betaling efter trial. Kontakt os inden 14 dage for fuld refundering.</li>
+      <li><strong>Kombineret med lifetime:</strong> hvis du allerede har lifetime, kan du tilkøbe medlemskab oven på. Lifetime bevares uændret hvis du senere opsiger medlemskabet — du mister kun AI-funktionerne.</li>
+    </ul>
 
     <h2>Dine rettigheder under GDPR</h2>
     <p>Du har ret til at:</p>
@@ -153,7 +165,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
   <!-- ENGLISH -->
   <div data-lang-block data-lang="en">
     <h1>Privacy Policy</h1>
-    <p class="meta">Last updated: 18 May 2026</p>
+    <p class="meta">Last updated: 19 May 2026 (v3 — added membership, AI meal scanning, OpenAI as processor)</p>
     <p class="lead">Sorovibe respects your privacy. This page describes exactly what we collect, how we use it, and what rights you have.</p>
 
     <h2>Who we are</h2>
@@ -168,14 +180,26 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 
     <h2>Where your data is stored</h2>
     <p>We use <a href="https://resend.com" target="_blank" rel="noopener">Resend</a> to manage our email list. Resend stores data in the EU (Dublin, Ireland) and is GDPR-compliant. You can read Resend's privacy policy <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">here</a>.</p>
-    <p>If you buy lifetime access, <a href="https://stripe.com" target="_blank" rel="noopener">Stripe</a> processes the payment. Stripe receives your email address, payment information (card details never pass through our servers) and country. Stripe stores data in the EU and is PCI-DSS- and GDPR-compliant. See Stripe's <a href="https://stripe.com/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
-    <p>The training app (fit.sorovibe.com) uses <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> to store your training and nutrition log. Supabase is hosted in the EU (Frankfurt). Data is protected by row-level-security so only you can access your own data. See Supabase's <a href="https://supabase.com/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
+    <p>If you buy lifetime or membership, <a href="https://stripe.com" target="_blank" rel="noopener">Stripe</a> processes the payment. Stripe receives your email address, payment information (card details never pass through our servers), country and — for membership — stores a card token for automatic renewal. Stripe stores data in the EU and is PCI-DSS- and GDPR-compliant. See Stripe's <a href="https://stripe.com/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
+    <p>The training app (fit.sorovibe.com) uses <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> to store your training and nutrition log, subscription status and trial timestamp (signup date + 4-week window). Supabase is hosted in the EU (Frankfurt). Data is protected by row-level-security so only you can access your own data. See Supabase's <a href="https://supabase.com/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
+    <p>If you have membership and use AI meal scanning, your image is sent to <a href="https://openai.com" target="_blank" rel="noopener">OpenAI</a>'s vision model for analysis. OpenAI processes the image under their <a href="https://openai.com/policies/business-terms" target="_blank" rel="noopener">API business terms</a>: the image is retained for up to 30 days for abuse detection, OpenAI <strong>does not</strong> train models on it, and it's deleted afterwards. On our side we <strong>never</strong> store the image — it leaves our Vercel Edge function within 60 seconds. We only store a timestamp (no image) to enforce the 5-scans-per-day limit. See OpenAI's <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">privacy policy</a>.</p>
     <p>The site itself is hosted on <a href="https://vercel.com" target="_blank" rel="noopener">Vercel</a>, which stores standard hosting logs (IP address, browser type, timestamp) for up to 30 days for security purposes. We don't access these logs for marketing.</p>
 
     <h2>What lifetime access covers</h2>
-    <p>When you buy the Early Supporter lifetime (199 DKK), you get lifelong access to <strong>Træningslog as it exists at the time of purchase</strong> — workout log, nutrition log, sleep log, cardio log, automatic macro calculation, the 8-week program and progress charts. You also receive all bug fixes, security updates and improvements to those existing features at no additional cost, for as long as Sorovibe operates.</p>
-    <p>Lifetime access does <strong>not</strong> include: future Pro features (such as AI coach, custom programming beyond PPL, advanced analytics, Apple Health or Google Fit integration) or entirely new Sorovibe products (such as a separate mental, sleep or weight-loss app). These may require separate payment or subscription.</p>
+    <p>When you buy the Early Supporter lifetime (199 DKK one-time, only available until August 1st 2026), you get lifelong access to <strong>Træningslog as it exists at the time of purchase</strong> — workout log, nutrition log, sleep log, cardio log, automatic macro calculation, the 8-week program and progress charts. You also receive all bug fixes, security updates and improvements to those existing features at no additional cost, for as long as Sorovibe operates.</p>
+    <p>Lifetime access does <strong>not</strong> include: AI meal scanning, future membership-only AI features, or entirely new Sorovibe products (such as a separate mental, sleep or weight-loss app). These require membership or separate payment.</p>
+    <p>14-day right of withdrawal under EU consumer law: contact <a href="mailto:hello@sorovibe.com">hello@sorovibe.com</a> within 14 days of purchase for full refund.</p>
     <p>If Sorovibe ceases operations or the app shuts down, you will receive advance notice by email and — where technically possible — an export of your data. You cannot claim a refund for shutdown occurring more than 14 days after the purchase date (per Danish consumer law regarding digital content).</p>
+
+    <h2>What membership covers</h2>
+    <p>Membership is an annual subscription of 349 DKK/year covering the entire Training Log plus AI meal scanning (up to 5 scans per day).</p>
+    <ul>
+      <li><strong>4-week free trial:</strong> you don't need to enter a card to start. Payment only happens if you choose to continue after trial.</li>
+      <li><strong>Automatic renewal:</strong> membership renews automatically each year at the same price (unless we give at least 30 days' notice of a price change — see terms of service).</li>
+      <li><strong>Cancellation:</strong> email <a href="mailto:hello@sorovibe.com">hello@sorovibe.com</a> to cancel. The membership runs until the end of the period — you don't get pro-rated refund, but your access stays until the period ends.</li>
+      <li><strong>14-day right of withdrawal:</strong> on your first payment after trial. Contact us within 14 days for full refund.</li>
+      <li><strong>Combined with lifetime:</strong> if you already have lifetime, you can buy membership on top. Lifetime stays unchanged if you later cancel membership — you only lose the AI features.</li>
+    </ul>
 
     <h2>Your rights under GDPR</h2>
     <p>You have the right to:</p>
