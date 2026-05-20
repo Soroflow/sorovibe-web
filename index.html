@@ -149,12 +149,21 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 .audience-desc{font-size:14px;color:var(--text);line-height:1.6;}
 
 /* Phone mockup (visual placeholder for app preview) */
-.phone-mock{background:linear-gradient(135deg,var(--teal-bg),var(--green-bg));border-radius:24px;aspect-ratio:9/16;max-height:340px;width:100%;max-width:200px;margin:0 auto;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);}
-.phone-mock-inner{text-align:center;padding:18px;}
-.phone-mock-check{width:54px;height:54px;margin:0 auto 14px;background:var(--card);border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
-.phone-mock-check svg{width:32px;height:32px;}
-.phone-mock-title{font-size:13px;font-weight:700;color:var(--teal-t);margin-bottom:4px;}
-.phone-mock-sub{font-size:11px;color:var(--muted);}
+.phone-mock{background:#0c0c0e;border-radius:32px;padding:8px;aspect-ratio:9/19.5;width:100%;max-width:230px;margin:0 auto;box-shadow:0 24px 56px rgba(0,0,0,0.22),0 0 0 1px rgba(255,255,255,0.05) inset;position:relative;}
+.phone-mock img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;border-radius:24px;}
+@media(prefers-color-scheme:dark){.phone-mock{box-shadow:0 24px 56px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.08) inset;}}
+
+/* Screenshot showcase under product-card */
+.screenshot-showcase{margin-top:32px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:640px){.screenshot-showcase{grid-template-columns:repeat(3,1fr);gap:12px;}}
+.shot-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;}
+.shot-frame{background:#0c0c0e;border-radius:24px;padding:6px;aspect-ratio:9/19.5;width:100%;max-width:180px;box-shadow:0 14px 32px rgba(0,0,0,0.18),0 0 0 1px rgba(255,255,255,0.05) inset;}
+.shot-frame img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;border-radius:18px;}
+.shot-caption{font-size:13px;color:var(--text);font-weight:600;letter-spacing:-0.01em;line-height:1.35;}
+.shot-sub{font-size:12px;color:var(--muted);line-height:1.45;margin-top:-6px;}
+@media(prefers-color-scheme:dark){.shot-frame{box-shadow:0 14px 32px rgba(0,0,0,0.45),0 0 0 1px rgba(255,255,255,0.08) inset;}}
+@media(max-width:480px){.shot-caption{font-size:11.5px;}.shot-sub{font-size:10.5px;}.shot-frame{padding:5px;border-radius:18px;}.shot-frame img{border-radius:14px;}}
+.shot-disclosure{margin-top:20px;font-size:13px;color:var(--muted);font-style:italic;text-align:center;line-height:1.5;}
 
 
 /* Story / about */
@@ -673,22 +682,57 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
           </a>
         </div>
       </div>
-      <div class="phone-mock" aria-hidden="true">
-        <div class="phone-mock-inner">
-          <div class="phone-mock-check">
-            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-              <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#brandBg)"/>
-              <path d="M20 34L29 44L44 24" stroke="url(#brandAccent)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            </svg>
-          </div>
-          <div class="phone-mock-title">fit.sorovibe.com</div>
-          <div class="phone-mock-sub">
-            <span data-lang class="on" data-lang-id="da">Træningslog</span>
-            <span data-lang data-lang-id="en">Training log</span>
-          </div>
+      <div class="phone-mock">
+        <img src="/assets/screenshots/start.webp" data-src-da="/assets/screenshots/start.webp" data-src-en="/assets/screenshots/start-en.webp" width="720" height="1469" loading="lazy" decoding="async" alt="Training log dashboard — today's focus, this week's training, macros and sleep on one screen">
+      </div>
+    </div>
+
+    <!-- Screenshot showcase — 3 outcomes: styrke / krop / kost-konsistens -->
+    <div class="screenshot-showcase">
+      <div class="shot-card">
+        <div class="shot-frame">
+          <img src="/assets/screenshots/fremgang-pr.webp" data-src-da="/assets/screenshots/fremgang-pr.webp" data-src-en="/assets/screenshots/fremgang-pr-en.webp" width="720" height="1464" loading="lazy" decoding="async" alt="">
+        </div>
+        <div class="shot-caption">
+          <span data-lang class="on" data-lang-id="da">Styrke-fremgang</span>
+          <span data-lang data-lang-id="en">Strength progress</span>
+        </div>
+        <div class="shot-sub">
+          <span data-lang-block class="on" data-lang="da">1RM-kurver pr. øvelse · PR-badges automatisk</span>
+          <span data-lang-block data-lang="en">1RM curves per exercise · PR badges automatic</span>
+        </div>
+      </div>
+      <div class="shot-card">
+        <div class="shot-frame">
+          <img src="/assets/screenshots/maalinger-fedt.webp" data-src-da="/assets/screenshots/maalinger-fedt.webp" data-src-en="/assets/screenshots/maalinger-fedt-en.webp" width="720" height="1485" loading="lazy" decoding="async" alt="">
+        </div>
+        <div class="shot-caption">
+          <span data-lang class="on" data-lang-id="da">Krops-fremgang</span>
+          <span data-lang data-lang-id="en">Body progress</span>
+        </div>
+        <div class="shot-sub">
+          <span data-lang-block class="on" data-lang="da">Vægt, fedtprocent og livvidde over uger og måneder</span>
+          <span data-lang-block data-lang="en">Weight, body fat % and waist over weeks and months</span>
+        </div>
+      </div>
+      <div class="shot-card">
+        <div class="shot-frame">
+          <img src="/assets/screenshots/makrolog-uge.webp" data-src-da="/assets/screenshots/makrolog-uge.webp" data-src-en="/assets/screenshots/makrolog-uge-en.webp" width="720" height="1336" loading="lazy" decoding="async" alt="">
+        </div>
+        <div class="shot-caption">
+          <span data-lang class="on" data-lang-id="da">Kost-konsistens</span>
+          <span data-lang data-lang-id="en">Nutrition consistency</span>
+        </div>
+        <div class="shot-sub">
+          <span data-lang-block class="on" data-lang="da">7-dages ugeoversigt med samlet balance og protein-snit</span>
+          <span data-lang-block data-lang="en">7-day overview with cumulative balance and protein average</span>
         </div>
       </div>
     </div>
+    <p class="shot-disclosure">
+      <span data-lang-block class="on" data-lang="da">Ægte tal fra mit eget program — uge 5. Jeg er appens første bruger.</span>
+      <span data-lang-block data-lang="en">Real numbers from my own program — week 5. I'm the app's first user.</span>
+    </p>
 
     <!-- PRICING — to bokse: Lifetime (deadline 1. aug 2026) + Medlemskab (recurring) -->
     <div class="pricing-grid" id="early-supporter">
@@ -872,6 +916,12 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
     if(ogTitle) ogTitle.setAttribute('content', titles[lang]);
     const ogDesc = document.querySelector('meta[property="og:description"]');
     if(ogDesc) ogDesc.setAttribute('content', descs[lang]);
+
+    // Screenshot lang-swap
+    document.querySelectorAll('img[data-src-da]').forEach(img => {
+      const newSrc = img.getAttribute('data-src-' + lang);
+      if(newSrc && img.getAttribute('src') !== newSrc) img.setAttribute('src', newSrc);
+    });
 
     try{ localStorage.setItem(STORAGE_KEY, lang); }catch(e){}
   }
