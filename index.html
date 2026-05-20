@@ -10,15 +10,15 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sorovibe.com/">
 <meta property="og:title" content="Sorovibe — Wellness, vane for vane">
-<meta property="og:description" content="Sorovibe bygger rolige, premium wellness-værktøjer. Start med Træningslog. Mere på vej.">
+<meta property="og:description" content="Træningslog: evidens-baseret trænings- og makrolog. Personligt 8-ugers program, automatiske makroer, AI-måltidsscanning. Lifetime eller årligt medlemskab — du vælger.">
 <meta property="og:locale" content="da_DK">
 <meta property="og:image" content="https://sorovibe.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Sorovibe — Wellness, habit by habit">
+<meta property="og:image:alt" content="Sorovibe — Wellness, vane for vane">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://sorovibe.com/og-image.png">
-<meta name="twitter:image:alt" content="Sorovibe — Wellness, habit by habit">
+<meta name="twitter:image:alt" content="Sorovibe — Wellness, vane for vane">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -27,6 +27,100 @@
 <link rel="alternate" hreflang="da" href="https://sorovibe.com/">
 <link rel="alternate" hreflang="en" href="https://sorovibe.com/?lang=en">
 <link rel="alternate" hreflang="x-default" href="https://sorovibe.com/">
+<link rel="preconnect" href="https://buy.stripe.com" crossorigin>
+<link rel="preconnect" href="https://fit.sorovibe.com">
+<link rel="preload" href="/assets/screenshots/start.webp" as="image" type="image/webp" fetchpriority="high">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://sorovibe.com/#organization",
+      "name": "Sorovibe",
+      "url": "https://sorovibe.com/",
+      "logo": "https://sorovibe.com/og-image.png",
+      "description": "Sorovibe builds calm, premium wellness tools that help you build lasting habits.",
+      "foundingDate": "2026",
+      "email": "hello@sorovibe.com",
+      "founder": {
+        "@id": "https://sorovibe.com/#person"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://sorovibe.com/#person",
+      "name": "Soroush Soltani",
+      "url": "https://sorovibe.com/",
+      "jobTitle": "Founder",
+      "worksFor": {
+        "@id": "https://sorovibe.com/#organization"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://sorovibe.com/#website",
+      "url": "https://sorovibe.com/",
+      "name": "Sorovibe",
+      "publisher": {
+        "@id": "https://sorovibe.com/#organization"
+      },
+      "inLanguage": [
+        "da",
+        "en"
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://fit.sorovibe.com/#app",
+      "name": "Training log",
+      "alternateName": "Træningslog",
+      "applicationCategory": "HealthApplication",
+      "applicationSubCategory": "Fitness tracker",
+      "operatingSystem": "Web, iOS, Android (PWA)",
+      "url": "https://fit.sorovibe.com/",
+      "description": "Evidence-based training and macro log with 8-week periodization, automatic BMR, sleep tracking, cardio log, and AI meal scanning. Built on cited research (Schoenfeld, Helms, Wolf, Morton).",
+      "publisher": {
+        "@id": "https://sorovibe.com/#organization"
+      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Lifetime",
+          "price": "199",
+          "priceCurrency": "DKK",
+          "category": "One-time purchase",
+          "availability": "https://schema.org/InStock",
+          "url": "https://sorovibe.com/#early-supporter"
+        },
+        {
+          "@type": "Offer",
+          "name": "Membership (with AI meal scanning)",
+          "price": "349",
+          "priceCurrency": "DKK",
+          "category": "Annual subscription",
+          "availability": "https://schema.org/InStock",
+          "url": "https://sorovibe.com/#early-supporter"
+        }
+      ],
+      "featureList": [
+        "8-week periodised training program",
+        "Sex-specific BMR (Mifflin-St Jeor)",
+        "Automatic macro calculation",
+        "Cardio log (ACSM/MET formulas)",
+        "Sleep tracking with quality rating",
+        "AI meal scanning (Membership)",
+        "Bilingual DA/EN",
+        "Offline PWA"
+      ],
+      "inLanguage": [
+        "da",
+        "en"
+      ]
+    }
+  ]
+}
+</script>
 <style>
 @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/inter-400.woff2') format('woff2');}
 @font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/inter-500.woff2') format('woff2');}
@@ -683,7 +777,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
         </div>
       </div>
       <div class="phone-mock">
-        <img src="/assets/screenshots/start.webp" data-src-da="/assets/screenshots/start.webp" data-src-en="/assets/screenshots/start-en.webp" width="720" height="1469" loading="lazy" decoding="async" alt="Training log dashboard — today's focus, this week's training, macros and sleep on one screen">
+        <img src="/assets/screenshots/start.webp" data-src-da="/assets/screenshots/start.webp" data-src-en="/assets/screenshots/start-en.webp" width="720" height="1469" fetchpriority="high" decoding="async" alt="Training log dashboard — today's focus, this week's training, macros and sleep on one screen">
       </div>
     </div>
 
@@ -916,6 +1010,26 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
     if(ogTitle) ogTitle.setAttribute('content', titles[lang]);
     const ogDesc = document.querySelector('meta[property="og:description"]');
     if(ogDesc) ogDesc.setAttribute('content', descs[lang]);
+
+    // OG image + alt swap per language
+    const ogImages = {
+      da: 'https://sorovibe.com/og-image.png',
+      en: 'https://sorovibe.com/og-image-en.png'
+    };
+    const ogImageAlts = {
+      da: 'Sorovibe — Wellness, vane for vane',
+      en: 'Sorovibe — Wellness, habit by habit'
+    };
+    const ogImg = document.querySelector('meta[property="og:image"]');
+    if(ogImg) ogImg.setAttribute('content', ogImages[lang]);
+    const twImg = document.querySelector('meta[name="twitter:image"]');
+    if(twImg) twImg.setAttribute('content', ogImages[lang]);
+    const ogImgAlt = document.querySelector('meta[property="og:image:alt"]');
+    if(ogImgAlt) ogImgAlt.setAttribute('content', ogImageAlts[lang]);
+    const twImgAlt = document.querySelector('meta[name="twitter:image:alt"]');
+    if(twImgAlt) twImgAlt.setAttribute('content', ogImageAlts[lang]);
+    const ogLocaleMeta = document.querySelector('meta[property="og:locale"]');
+    if(ogLocaleMeta) ogLocaleMeta.setAttribute('content', lang === 'da' ? 'da_DK' : 'en_US');
 
     // Screenshot lang-swap
     document.querySelectorAll('img[data-src-da]').forEach(img => {
