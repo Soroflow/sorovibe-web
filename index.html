@@ -195,6 +195,27 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
   .ratio-app-note{background:color-mix(in srgb,var(--teal-bg) 60%,var(--card));}
 }
 
+/* Food — whole vs ultra-processed */
+.food-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:20px;}
+.food-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 22px;box-shadow:var(--shadow);}
+.food-card-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.food-card-icon{width:28px;height:28px;flex-shrink:0;}
+.food-choose-more .food-card-icon{color:var(--teal-t);}
+.food-choose-less .food-card-icon{color:var(--amber-t);}
+.food-card-title{font-size:17px;font-weight:700;letter-spacing:-0.01em;}
+.food-card-sub{font-size:13.5px;color:var(--muted);margin:0 0 14px;line-height:1.55;}
+.food-list{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px;}
+.food-list li{font-size:13.5px;color:var(--text);padding:6px 12px;border-radius:999px;line-height:1.4;border:1px solid transparent;}
+.food-choose-more .food-list li{background:color-mix(in srgb,var(--teal-t) 10%,transparent);border-color:color-mix(in srgb,var(--teal-t) 22%,transparent);}
+.food-choose-less .food-list li{background:color-mix(in srgb,var(--amber-t) 12%,transparent);border-color:color-mix(in srgb,var(--amber-t) 25%,transparent);}
+.food-evidence{font-size:13.5px;color:var(--muted);line-height:1.65;padding:20px 22px;background:var(--card);border:1px solid var(--border);border-radius:16px;}
+.food-evidence strong{color:var(--text);font-weight:600;}
+.food-evidence em{font-style:italic;color:var(--muted);}
+@media(prefers-color-scheme:dark){
+  .food-choose-more .food-list li{background:color-mix(in srgb,var(--teal-t) 16%,transparent);}
+  .food-choose-less .food-list li{background:color-mix(in srgb,var(--amber-t) 18%,transparent);}
+}
+
 /* iOS zoom-fix */
 @media(max-width:700px){
   input,select,textarea{font-size:16px;}
@@ -502,6 +523,73 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
       <p>
         <span data-lang-block class="on" data-lang="da"><strong>Derfor sporer Træningslog alle tre — træning, makroer OG søvn — i én app.</strong> Søvn logges per nat med kvalitets-rating og aldersbaseret target-bånd (NSF, Hirshkowitz 2015). Vægtning og prioritering bygger på Helms et al. (<em>The Muscle &amp; Strength Pyramid</em>, 2018) og Schoenfeld et al.</span>
         <span data-lang-block data-lang="en"><strong>That's why Training log tracks all three — training, macros AND sleep — in one app.</strong> Sleep is logged per night with quality rating and an age-based target band (NSF, Hirshkowitz 2015). Weighting and priorities based on Helms et al. (<em>The Muscle &amp; Strength Pyramid</em>, 2018) and Schoenfeld et al.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- MAD — Whole food vs ultra-processed -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span data-lang class="on" data-lang-id="da">De 50% kost</span>
+        <span data-lang data-lang-id="en">The 50% nutrition</span>
+      </span>
+      <h2>
+        <span data-lang class="on" data-lang-id="da">Spis mad — ikke produkter der ligner mad</span>
+        <span data-lang data-lang-id="en">Eat food — not products that resemble food</span>
+      </h2>
+      <p class="sub">
+        <span data-lang class="on" data-lang-id="da">Principperne er enkle: energibalance, nok protein til muskel, vitaminer og fibre fra rigtige fødevarer. Det svære er at gøre det dag efter dag. En tommelfingerregel: hold dig til mad som også fandtes for 100 år siden — minimalt forarbejdet, kort ingrediensliste, ingredienser du kan udtale.</span>
+        <span data-lang data-lang-id="en">The principles are simple: energy balance, enough protein for muscle, vitamins and fibre from real foods. The hard part is doing it day after day. A rule of thumb: stick to foods that also existed 100 years ago — minimally processed, short ingredient list, ingredients you can pronounce.</span>
+      </p>
+    </div>
+
+    <div class="food-grid">
+      <div class="food-card food-choose-more">
+        <div class="food-card-head">
+          <svg class="food-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="food-card-title">
+            <span data-lang class="on" data-lang-id="da">Vælg oftere</span>
+            <span data-lang data-lang-id="en">Choose more often</span>
+          </span>
+        </div>
+        <p class="food-card-sub">
+          <span data-lang-block class="on" data-lang="da">Hele, minimalt forarbejdede fødevarer — kroppen genkender dem.</span>
+          <span data-lang-block data-lang="en">Whole, minimally processed foods — the body recognises them.</span>
+        </p>
+        <ul class="food-list" data-lang-list data-lang="da">
+          <li>Æg</li><li>Fisk</li><li>Kylling</li><li>Oksekød</li><li>Bønner & linser</li><li>Skyr & yoghurt</li><li>Mælk & ost</li><li>Kartofler</li><li>Ris</li><li>Havre</li><li>Rugbrød</li><li>Pasta</li><li>Frugt</li><li>Bær</li><li>Grøntsager</li><li>Bladgrønt</li><li>Nødder & frø</li><li>Olivenolie</li><li>Vand & kaffe</li>
+        </ul>
+        <ul class="food-list" data-lang-list data-lang="en">
+          <li>Eggs</li><li>Fish</li><li>Chicken</li><li>Beef</li><li>Beans & lentils</li><li>Skyr & yoghurt</li><li>Milk & cheese</li><li>Potatoes</li><li>Rice</li><li>Oats</li><li>Rye bread</li><li>Pasta</li><li>Fruit</li><li>Berries</li><li>Vegetables</li><li>Leafy greens</li><li>Nuts & seeds</li><li>Olive oil</li><li>Water & coffee</li>
+        </ul>
+      </div>
+
+      <div class="food-card food-choose-less">
+        <div class="food-card-head">
+          <svg class="food-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          <span class="food-card-title">
+            <span data-lang class="on" data-lang-id="da">Vælg sjældnere</span>
+            <span data-lang data-lang-id="en">Choose less often</span>
+          </span>
+        </div>
+        <p class="food-card-sub">
+          <span data-lang-block class="on" data-lang="da">Ultra-forarbejdet — designet til at få dig til at spise mere end du har brug for.</span>
+          <span data-lang-block data-lang="en">Ultra-processed — engineered to make you eat more than you need.</span>
+        </p>
+        <ul class="food-list" data-lang-list data-lang="da">
+          <li>Sodavand & saft</li><li>Energidrik</li><li>Slik & chokolade</li><li>Kager & wienerbrød</li><li>Is</li><li>Chips & snacks</li><li>Færdigretter</li><li>Frosne pizzaer</li><li>Pølser & nuggets</li><li>Forarbejdet kød</li><li>Sukrede cornflakes</li><li>Candy-protein-barer</li><li>Hvidt toastbrød</li><li>Margarine</li><li>Sukret plantedrik</li>
+        </ul>
+        <ul class="food-list" data-lang-list data-lang="en">
+          <li>Soda & juice</li><li>Energy drinks</li><li>Candy & chocolate</li><li>Cakes & pastries</li><li>Ice cream</li><li>Chips & snacks</li><li>Ready meals</li><li>Frozen pizza</li><li>Sausages & nuggets</li><li>Processed meats</li><li>Sugary cereals</li><li>Candy-style protein bars</li><li>White toast bread</li><li>Margarine</li><li>Sweetened plant drinks</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="food-evidence">
+      <p>
+        <span data-lang-block class="on" data-lang="da"><strong>Forskningen:</strong> I et randomiseret kontrolleret studie (<em>Hall et al., Cell Metabolism 2019, NIH</em>) spiste deltagerne spontant ca. 500 kcal mere om dagen på en ultra-forarbejdet kost — selv når måltiderne var matchet på kalorier, sukker, fedt, protein og fibre. De tog 0,9 kg på over to uger og tabte tilsvarende på en minimalt forarbejdet kost. En meta-analyse af 43 studier (<em>Pagliai et al., British Journal of Nutrition 2021</em>) viser at højere indtag af ultra-forarbejdet mad hænger sammen med overvægt, type 2-diabetes og hjerte-kar-sygdom. Begrebet "ultra-forarbejdet" stammer fra NOVA-klassifikationen (<em>Monteiro et al., 2018</em>). <strong>Konklusion:</strong> hvis flertallet af dine måltider er hele fødevarer, falder du automatisk ind i den rigtige zone — uden at tracke hver eneste kalorie.</span>
+        <span data-lang-block data-lang="en"><strong>The research:</strong> In a randomised controlled trial (<em>Hall et al., Cell Metabolism 2019, NIH</em>), participants spontaneously ate about 500 kcal more per day on an ultra-processed diet — even when meals were matched for calories, sugar, fat, protein and fibre. They gained 0.9 kg over two weeks and lost a similar amount on a minimally processed diet. A meta-analysis of 43 studies (<em>Pagliai et al., British Journal of Nutrition 2021</em>) found higher ultra-processed intake is linked to overweight, type 2 diabetes and cardiovascular disease. The term "ultra-processed" comes from the NOVA classification (<em>Monteiro et al., 2018</em>). <strong>The takeaway:</strong> when most of your meals are whole foods, you fall into the right zone automatically — no need to track every single calorie.</span>
       </p>
     </div>
   </section>
