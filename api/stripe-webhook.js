@@ -144,6 +144,100 @@ async function recordLifetimePurchase(session) {
   return { ok: true };
 }
 
+// ── LIFETIME REFUND flow (audit-fix 2026-05-21) ─────────────────────────
+// Trigger: charge.refunded eller charge.dispute.created (chargeback).
+// Effekt: Marker lifetime_purchases-row som refunded + clear bruger's lifetime_supporter
+// flag i user_metadata, så han mister fri AI-adgang.
+//
+// Find purchase-row enten via stripe_payment_intent (charge.refunded) eller
+// charge.payment_intent (dispute). Kun lifetime-køb håndteres her — subscription-refund
+// flyder gennem customer.subscription.updated → status='canceled'.
+
+async function handleLifetimeRefund(charge, eventType) {
+  const paymentIntent = charge.payment_intent;
+  if (!paymentIntent) {
+    console.warn('Refund event mangler payment_intent', eventType, charge.id);
+    return { ok: false, reason: 'no_payment_intent' };
+  }
+
+  // Find lifetime_purchases row via stripe_payment_intent
+  const lookupResp = await supabaseRequest(
+    `/rest/v1/lifetime_purchases?stripe_payment_intent=eq.${encodeURIComponent(paymentIntent)}&select=id,email,applied_to_user_id,refunded_at&limit=1`,
+    { method: 'GET' }
+  );
+  if (!lookupResp.ok) {
+    console.error('lifetime_purchases lookup failed', lookupResp.status);
+    return { ok: false, reason: 'lookup_failed' };
+  }
+  const rows = await lookupResp.json().catch(() => []);
+  const row = Array.isArray(rows) && rows[0] ? rows[0] : null;
+  if (!row) {
+    // Ikke et lifetime-køb (kan være subscription invoice eller andet). Ignorér stille.
+    console.log('No lifetime purchase found for refunded payment_intent', paymentIntent);
+    return { ok: true, ignored: 'not_lifetime' };
+  }
+
+  // Idempotent: hvis refunded_at allerede sat, returner OK uden at gøre mere
+  if (row.refunded_at) {
+    console.log('Lifetime purchase already marked refunded', row.id);
+    return { ok: true, idempotent: true };
+  }
+
+  // Marker row som refunded
+  const updateResp = await supabaseRequest(
+    `/rest/v1/lifetime_purchases?id=eq.${row.id}`,
+    {
+      method: 'PATCH',
+      headers: { 'Prefer': 'return=minimal' },
+      body: JSON.stringify({
+        refunded_at: new Date().toISOString(),
+        refund_reason: eventType,
+      }),
+    }
+  );
+  if (!updateResp.ok) {
+    const errText = await updateResp.text();
+    console.error('lifetime_purchases refund-update failed', updateResp.status, errText);
+    return { ok: false, reason: 'update_failed' };
+  }
+
+  // Clear lifetime_supporter user_metadata. Brug applied_to_user_id hvis sat,
+  // ellers slå op via email (fallback for legacy-rows uden applied_to_user_id).
+  let userId = row.applied_to_user_id;
+  if (!userId && row.email) {
+    const user = await findUserByEmail(row.email);
+    userId = user?.id || null;
+  }
+
+  if (userId) {
+    // Fetch current user_metadata først så vi ikke wipes andre felter
+    const getUserResp = await supabaseRequest(`/auth/v1/admin/users/${userId}`, { method: 'GET' });
+    if (getUserResp.ok) {
+      const currentUser = await getUserResp.json().catch(() => null);
+      const meta = { ...(currentUser?.user_metadata || {}) };
+      delete meta.lifetime_supporter;
+      delete meta.lifetime_purchased_at;
+      meta.lifetime_refunded_at = new Date().toISOString();
+      meta.lifetime_refund_reason = eventType;
+
+      const updateUserResp = await supabaseRequest(`/auth/v1/admin/users/${userId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ user_metadata: meta }),
+      });
+      if (!updateUserResp.ok) {
+        const errText = await updateUserResp.text();
+        console.error('lifetime user_metadata refund-clear failed', updateUserResp.status, errText);
+      }
+    } else {
+      console.warn('Could not fetch user to clear lifetime_supporter', userId, getUserResp.status);
+    }
+  } else {
+    console.warn('Refund processed but no user_id found to clear', row.email);
+  }
+
+  return { ok: true };
+}
+
 // ── MEDLEMSKAB flow (NY) ────────────────────────────────────────────────
 // Upsert subscription-state i public.subscriptions. Idempotent via UNIQUE user_id.
 
@@ -384,6 +478,22 @@ export default async function handler(req) {
       // separat customer.subscription.updated event. Vi gør intet ekstra her,
       // men logger til debugging.
       console.log('invoice.payment_failed for subscription', obj.subscription);
+    } else if (
+      eventType === 'charge.refunded' ||
+      eventType === 'charge.dispute.created' ||
+      eventType === 'charge.dispute.funds_withdrawn'
+    ) {
+      // Refund eller chargeback på lifetime-køb. Clear lifetime_supporter flag.
+      // Subscription-refunds håndteres via customer.subscription.updated → status=canceled.
+      // For charge.refunded er obj = charge-objektet direkte.
+      // For dispute-events er obj = dispute-objektet, charge er i obj.charge (kun ID-string),
+      // payment_intent ligger i obj.payment_intent.
+      let chargeData = obj;
+      if (eventType.startsWith('charge.dispute.')) {
+        // Map dispute → charge-lignende object for handleLifetimeRefund (kun payment_intent kræves)
+        chargeData = { payment_intent: obj.payment_intent, id: obj.charge };
+      }
+      await handleLifetimeRefund(chargeData, eventType);
     }
     // Andre events ignoreres
   } catch (err) {
