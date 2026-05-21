@@ -1037,6 +1037,16 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
       if(newSrc && img.getAttribute('src') !== newSrc) img.setAttribute('src', newSrc);
     });
 
+    // App-link sprog-parameter — alle links til fit.sorovibe.com får ?lang=
+    // så EN-brugere lander på engelsk app, DA-brugere på dansk.
+    document.querySelectorAll('a[href*="fit.sorovibe.com"]').forEach(a => {
+      try{
+        const url = new URL(a.getAttribute('href'), 'https://sorovibe.com');
+        url.searchParams.set('lang', lang);
+        a.setAttribute('href', url.toString());
+      }catch(e){}
+    });
+
     try{ localStorage.setItem(STORAGE_KEY, lang); }catch(e){}
   }
 
