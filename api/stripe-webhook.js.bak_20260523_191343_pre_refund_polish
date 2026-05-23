@@ -125,33 +125,13 @@ async function recordLifetimePurchase(session) {
   // Marker bruger som lifetime_supporter hvis konto findes
   const user = await findUserByEmail(email);
   if (user?.id) {
-    const nowIso = new Date().toISOString();
-
-    // Link purchase-row til user_id så refund-handler ikke skal email-lookup.
-    // Idempotent: opdaterer kun rows der matcher session_id og endnu ikke er linked.
-    const linkResp = await supabaseRequest(
-      `/rest/v1/lifetime_purchases?stripe_session_id=eq.${encodeURIComponent(session.id)}&applied_to_user_id=is.null`,
-      {
-        method: 'PATCH',
-        headers: { 'Prefer': 'return=minimal' },
-        body: JSON.stringify({
-          applied_to_user_id: user.id,
-          applied_at: nowIso,
-        }),
-      }
-    );
-    if (!linkResp.ok) {
-      const errText = await linkResp.text();
-      console.error('lifetime_purchases applied_to_user_id link failed', linkResp.status, errText);
-    }
-
     const updateResp = await supabaseRequest(`/auth/v1/admin/users/${user.id}`, {
       method: 'PUT',
       body: JSON.stringify({
         user_metadata: {
           ...(user.user_metadata || {}),
           lifetime_supporter: true,
-          lifetime_purchased_at: nowIso,
+          lifetime_purchased_at: new Date().toISOString(),
         },
       }),
     });
@@ -162,106 +142,6 @@ async function recordLifetimePurchase(session) {
   }
 
   return { ok: true };
-}
-
-// ── Resend transactional email (refund-bekræftelse) ────────────────────
-// Genbruger samme FROM/REPLY-mønster som api/subscribe.js (noreply@sorovibe.com).
-// Bilingual: vælger sprog via user_metadata.locale ('en' → engelsk, alt andet → dansk).
-//
-// Stripe sender allerede sin egen refund-receipt via deres mail-engine, men siger ingenting
-// om at app-adgangen er trukket tilbage. Denne mail lukker det informations-gap.
-
-const REFUND_FROM = 'Træningslog <noreply@sorovibe.com>';
-const REFUND_REPLY_TO = 'hello@sorovibe.com';
-
-function refundEmailTemplate(lang, isDispute) {
-  const da = {
-    subject: isDispute
-      ? 'Din betalingstvist er registreret — Træningslog-adgang sat på pause'
-      : 'Din refund er gennemført — Træningslog-adgang trukket tilbage',
-    heading: isDispute ? 'Tvisten er registreret' : 'Refund gennemført',
-    body: isDispute
-      ? 'Vi har modtaget en betalingstvist på dit Lifetime-køb. Din premium-adgang (inkl. AI-måltidsscan) er sat på pause indtil tvisten er afsluttet. Hvis tvisten afgøres til din fordel, gen-aktiverer vi automatisk din adgang.'
-      : 'Din refund af Lifetime-købet er gennemført. Vi har trukket din premium-adgang (inkl. AI-måltidsscan) tilbage. Du kan stadig bruge appen gratis med begrænsede funktioner.',
-    repurchase: 'Hvis du ombestemmer dig, kan du købe Lifetime igen når som helst.',
-    questions: 'Spørgsmål? Svar bare på denne mail.',
-    repurchaseUrl: 'https://sorovibe.com/#early-supporter',
-    repurchaseCta: 'Køb Lifetime igen',
-  };
-  const en = {
-    subject: isDispute
-      ? 'Your payment dispute is registered — Training log access paused'
-      : 'Your refund is complete — Training log access revoked',
-    heading: isDispute ? 'Dispute registered' : 'Refund complete',
-    body: isDispute
-      ? 'We have received a payment dispute for your Lifetime purchase. Your premium access (including AI meal scanning) is paused while the dispute is resolved. If the dispute is decided in your favor, we will automatically re-enable your access.'
-      : 'Your Lifetime refund has been processed. We have revoked your premium access (including AI meal scanning). You can still use the app for free with limited features.',
-    repurchase: 'If you change your mind, you can purchase Lifetime again any time.',
-    questions: 'Questions? Just reply to this email.',
-    repurchaseUrl: 'https://sorovibe.com/#early-supporter',
-    repurchaseCta: 'Buy Lifetime again',
-  };
-  const t = lang === 'en' ? en : da;
-  const text =
-    `${t.heading}\n\n${t.body}\n\n${t.repurchase}\n${t.repurchaseUrl}\n\n${t.questions}\n\n— Træningslog`;
-  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${t.heading}</title></head>
-<body style="margin:0;padding:0;background:#f5f3ef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
-<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f5f3ef;padding:32px 16px;">
-<tr><td align="center">
-<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:560px;background:#fff;border-radius:12px;padding:32px;">
-<tr><td>
-<h1 style="margin:0 0 16px;font-size:22px;line-height:1.3;color:#1f1d18;font-weight:600;">${t.heading}</h1>
-<p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#3a372f;">${t.body}</p>
-<p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#3a372f;">${t.repurchase}</p>
-<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td>
-<a href="${t.repurchaseUrl}" style="display:inline-block;padding:12px 24px;background:#1f1d18;color:#fff;text-decoration:none;border-radius:8px;font-size:14px;font-weight:500;">${t.repurchaseCta}</a>
-</td></tr></table>
-<p style="margin:28px 0 0;font-size:13px;line-height:1.6;color:#6b675e;">${t.questions}</p>
-</td></tr>
-</table>
-<p style="font-size:12px;line-height:1.6;color:#888580;margin:20px 0 0;text-align:center;">— Træningslog · Sorovibe</p>
-</td></tr>
-</table>
-</body></html>`;
-  return { subject: t.subject, html, text };
-}
-
-async function sendRefundEmail(email, lang, isDispute) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.warn('RESEND_API_KEY not set — refund-confirmation email skipped');
-    return { ok: false, reason: 'no_api_key' };
-  }
-  if (!email) {
-    return { ok: false, reason: 'no_email' };
-  }
-  const tmpl = refundEmailTemplate(lang, isDispute);
-  try {
-    const resp = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: REFUND_FROM,
-        to: email,
-        reply_to: REFUND_REPLY_TO,
-        subject: tmpl.subject,
-        html: tmpl.html,
-        text: tmpl.text,
-      }),
-    });
-    if (!resp.ok) {
-      const errText = await resp.text().catch(() => '');
-      console.error('Resend refund-email failed', resp.status, errText.slice(0, 200));
-      return { ok: false, reason: 'send_failed' };
-    }
-    return { ok: true };
-  } catch (err) {
-    console.error('Resend refund-email threw', err?.message || err);
-    return { ok: false, reason: 'threw' };
-  }
 }
 
 // ── LIFETIME REFUND flow (audit-fix 2026-05-21) ─────────────────────────
@@ -324,12 +204,9 @@ async function handleLifetimeRefund(charge, eventType) {
   // Clear lifetime_supporter user_metadata. Brug applied_to_user_id hvis sat,
   // ellers slå op via email (fallback for legacy-rows uden applied_to_user_id).
   let userId = row.applied_to_user_id;
-  let userLocale = 'da';
-  let userEmail = row.email;
   if (!userId && row.email) {
     const user = await findUserByEmail(row.email);
     userId = user?.id || null;
-    if (user?.user_metadata?.locale === 'en') userLocale = 'en';
   }
 
   if (userId) {
@@ -338,8 +215,6 @@ async function handleLifetimeRefund(charge, eventType) {
     if (getUserResp.ok) {
       const currentUser = await getUserResp.json().catch(() => null);
       const meta = { ...(currentUser?.user_metadata || {}) };
-      if (meta.locale === 'en') userLocale = 'en';
-      if (!userEmail && currentUser?.email) userEmail = currentUser.email;
       delete meta.lifetime_supporter;
       delete meta.lifetime_purchased_at;
       meta.lifetime_refunded_at = new Date().toISOString();
@@ -360,99 +235,6 @@ async function handleLifetimeRefund(charge, eventType) {
     console.warn('Refund processed but no user_id found to clear', row.email);
   }
 
-  // Send refund-confirmation-mail. Fire-and-forget i den forstand at email-fejl ikke
-  // ruller refund-handling tilbage — refund er sket på Stripe-siden uanset hvad.
-  // isDispute=true når event er charge.dispute.* så ordlyden matcher (pause vs revoke).
-  if (userEmail) {
-    const isDispute = eventType.startsWith('charge.dispute.');
-    await sendRefundEmail(userEmail, userLocale, isDispute);
-  }
-
-  return { ok: true };
-}
-
-// ── DISPUTE CLOSED flow (re-grant ved vundet dispute) ───────────────────
-// Når Stripe lukker en dispute, kommer charge.dispute.closed med status:
-//   - 'won' / 'warning_closed': vi vandt → re-grant lifetime_supporter
-//   - 'lost': bruger vandt → adgang forbliver revoked (allerede cleared via dispute.created)
-//   - 'warning_needs_response' osv.: ignorér (ikke en final state)
-async function handleDisputeClosed(dispute) {
-  const status = dispute?.status;
-  const paymentIntent = dispute?.payment_intent;
-  if (!paymentIntent) {
-    console.warn('dispute.closed mangler payment_intent', dispute?.id);
-    return { ok: false, reason: 'no_payment_intent' };
-  }
-  // Kun "won" + "warning_closed" giver re-grant. Alt andet ignoreres.
-  if (status !== 'won' && status !== 'warning_closed') {
-    console.log('dispute.closed status', status, '— ingen re-grant');
-    return { ok: true, ignored: 'not_won' };
-  }
-
-  // Find purchase-row
-  const lookupResp = await supabaseRequest(
-    `/rest/v1/lifetime_purchases?stripe_payment_intent=eq.${encodeURIComponent(paymentIntent)}&select=id,email,applied_to_user_id&limit=1`,
-    { method: 'GET' }
-  );
-  if (!lookupResp.ok) {
-    console.error('lifetime_purchases dispute-close lookup failed', lookupResp.status);
-    return { ok: false, reason: 'lookup_failed' };
-  }
-  const rows = await lookupResp.json().catch(() => []);
-  const row = Array.isArray(rows) && rows[0] ? rows[0] : null;
-  if (!row) {
-    console.log('No lifetime purchase found for won dispute', paymentIntent);
-    return { ok: true, ignored: 'not_lifetime' };
-  }
-
-  // Clear refunded_at/refund_reason (re-aktiver row)
-  const restoreResp = await supabaseRequest(
-    `/rest/v1/lifetime_purchases?id=eq.${row.id}`,
-    {
-      method: 'PATCH',
-      headers: { 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ refunded_at: null, refund_reason: null }),
-    }
-  );
-  if (!restoreResp.ok) {
-    const errText = await restoreResp.text();
-    console.error('lifetime_purchases dispute-close restore failed', restoreResp.status, errText);
-  }
-
-  // Re-grant lifetime_supporter
-  let userId = row.applied_to_user_id;
-  if (!userId && row.email) {
-    const user = await findUserByEmail(row.email);
-    userId = user?.id || null;
-  }
-  if (!userId) {
-    console.warn('dispute won but no user to re-grant', row.email);
-    return { ok: true, partial: 'no_user' };
-  }
-
-  const getUserResp = await supabaseRequest(`/auth/v1/admin/users/${userId}`, { method: 'GET' });
-  if (!getUserResp.ok) {
-    console.warn('dispute re-grant: could not fetch user', userId);
-    return { ok: false, reason: 'user_fetch_failed' };
-  }
-  const currentUser = await getUserResp.json().catch(() => null);
-  const meta = { ...(currentUser?.user_metadata || {}) };
-  meta.lifetime_supporter = true;
-  meta.lifetime_purchased_at = meta.lifetime_purchased_at || new Date().toISOString();
-  meta.lifetime_regranted_at = new Date().toISOString();
-  meta.lifetime_regrant_reason = 'dispute_won';
-  delete meta.lifetime_refunded_at;
-  delete meta.lifetime_refund_reason;
-
-  const updateUserResp = await supabaseRequest(`/auth/v1/admin/users/${userId}`, {
-    method: 'PUT',
-    body: JSON.stringify({ user_metadata: meta }),
-  });
-  if (!updateUserResp.ok) {
-    const errText = await updateUserResp.text();
-    console.error('dispute re-grant user_metadata update failed', updateUserResp.status, errText);
-    return { ok: false, reason: 'user_update_failed' };
-  }
   return { ok: true };
 }
 
@@ -712,11 +494,6 @@ export default async function handler(req) {
         chargeData = { payment_intent: obj.payment_intent, id: obj.charge };
       }
       await handleLifetimeRefund(chargeData, eventType);
-    } else if (eventType === 'charge.dispute.closed') {
-      // Dispute er afgjort. Hvis vi vandt (status='won' eller 'warning_closed'),
-      // gen-aktivér brugerens lifetime_supporter. Hvis vi tabte, gør intet —
-      // funds_withdrawn-eventet har allerede cleared adgangen.
-      await handleDisputeClosed(obj);
     }
     // Andre events ignoreres
   } catch (err) {
