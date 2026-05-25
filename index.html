@@ -1119,4 +1119,17 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
         throw new Error(data.error || 'subscribe_failed');
       }
       msg.classList.add('ok');
-      msg.textContent = tt('Tak! Du er på listen.', 'Thanks! You\'re on the list.')
+      msg.textContent = tt('Tak! Du er på listen.', 'Thanks! You\'re on the list.');
+      input.value = '';
+    }catch(err){
+      msg.classList.add('err');
+      msg.textContent = tt('Noget gik galt. Prøv igen.', 'Something went wrong. Please try again.');
+    }finally{
+      btn.disabled = false;
+      btn.innerHTML = originalLabel;
+    }
+  });
+})();
+</script>
+</body>
+</html>
