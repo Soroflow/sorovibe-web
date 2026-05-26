@@ -20,7 +20,10 @@
 <meta name="twitter:image" content="https://sorovibe.com/og-image.png">
 <meta name="twitter:image:alt" content="Sorovibe — Wellness, vane for vane">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="shortcut icon" href="/favicon.ico">
 <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="canonical" href="https://sorovibe.com/">
@@ -153,8 +156,9 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 .site-nav.scrolled{border-bottom-color:var(--border);}
 .nav-row{display:flex;align-items:center;justify-content:space-between;gap:14px;}
 .brand{display:flex;align-items:center;text-decoration:none;color:var(--text);}
-.brand-logo{height:30px;width:auto;display:block;color:var(--text);}
+.brand-logo{height:30px;width:auto;display:block;}
 @media(max-width:480px){.brand-logo{height:26px;}}
+@media(prefers-color-scheme:dark){.brand-logo{filter:invert(1);}}
 .lang-toggle{display:flex;background:var(--input-bg);border:1px solid var(--border);border-radius:999px;padding:3px;}
 .lang-btn{background:none;border:none;padding:5px 12px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-radius:999px;font-family:inherit;transition:all .15s;}
 .lang-btn.on{background:var(--card);color:var(--text);box-shadow:var(--shadow-act);}
@@ -346,15 +350,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 <header class="site-nav" id="siteNav">
   <div class="wrap nav-row">
     <a href="/" class="brand" aria-label="Sorovibe">
-      <svg class="brand-logo" viewBox="0 0 620 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
-        <title>sorovibe</title>
-        <g transform="translate(36 22)" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
-          <path d="M6 38C9 17 28 4 50 4C66 4 80 11 90 23"/>
-          <path d="M91 58C81 73 65 82 47 82C27 82 10 71 5 55"/>
-          <path d="M8 55C24 61 36 55 49 44C63 32 76 34 90 47"/>
-        </g>
-        <text x="166" y="78" fill="currentColor" font-family="'Inter','Geist','Helvetica Neue',Arial,sans-serif" font-size="58" font-weight="400" letter-spacing="-3.2">sorovibe</text>
-      </svg>
+<img class="brand-logo" src="/assets/sorovibe-logo.png" alt="Sorovibe" width="114" height="30" decoding="sync">
     </a>
     <div class="lang-toggle" role="group" aria-label="Language">
       <button class="lang-btn on" data-set-lang="da">DA</button>
