@@ -343,18 +343,6 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 </head>
 <body>
 
-<!-- Delte SVG-defs til Trace-mark (bruges af product-card og phone-mock) -->
-<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
-  <defs>
-    <linearGradient id="brandBg" x1="0" y1="0" x2="64" y2="64">
-      <stop stop-color="#1a1917"/><stop offset="1" stop-color="#085041"/>
-    </linearGradient>
-    <linearGradient id="brandAccent" x1="20" y1="44" x2="44" y2="24">
-      <stop stop-color="#3b6d11"/><stop offset="1" stop-color="#97c459"/>
-    </linearGradient>
-  </defs>
-</svg>
-
 <header class="site-nav" id="siteNav">
   <div class="wrap nav-row">
     <a href="/" class="brand" aria-label="Sorovibe">
@@ -735,17 +723,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
     <div class="product-card">
       <div>
         <div class="product-name">
-          <svg class="product-icon" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect width="240" height="240" rx="52" fill="#041312"/>
-            <g transform="translate(0,25)">
-              <g fill="none" stroke="#BDD1B9" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M52 92 L78 92 C94 92 104 82 116 62 C128 42 144 32 170 32 L188 32"/>
-                <path d="M82 132 C98 132 110 122 122 102 C134 82 150 72 176 72 L194 72"/>
-              </g>
-              <circle cx="30" cy="92" r="8" fill="#BDD1B9"/>
-              <circle cx="210" cy="32" r="8" fill="#BDD1B9"/>
-            </g>
-          </svg>
+          <img class="product-icon" src="/assets/trace-icon.png" alt="" width="30" height="30" decoding="async" loading="lazy">
           <span class="product-title"><span data-lang class="on" data-lang-id="da">Trace</span><span data-lang data-lang-id="en">Trace</span></span>
         </div>
         <p class="product-desc">
