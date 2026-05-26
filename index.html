@@ -198,7 +198,8 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
 .product-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:32px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center;}
 @media(max-width:640px){.product-card{grid-template-columns:1fr;padding:24px;}}
 .product-name{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-.product-icon{width:30px;height:30px;flex-shrink:0;}
+.product-icon{height:30px;width:auto;flex-shrink:0;}
+@media(prefers-color-scheme:dark){.product-icon{filter:invert(1);}}
 .product-title{font-size:20px;font-weight:700;letter-spacing:-0.01em;}
 .product-desc{font-size:15px;color:var(--text);margin-bottom:18px;line-height:1.6;}
 .feature-list{list-style:none;margin-bottom:24px;}
@@ -719,7 +720,7 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
     <div class="product-card">
       <div>
         <div class="product-name">
-          <img class="product-icon" src="/assets/trace-icon.png" alt="" width="30" height="30" decoding="async" loading="lazy">
+          <img class="product-icon" src="/assets/trace-mark.png" alt="" width="33" height="30" decoding="async" loading="lazy">
           <span class="product-title"><span data-lang class="on" data-lang-id="da">Trace</span><span data-lang data-lang-id="en">Trace</span></span>
         </div>
         <p class="product-desc">
