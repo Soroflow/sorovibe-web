@@ -171,14 +171,14 @@ async function recordLifetimePurchase(session) {
 // Stripe sender allerede sin egen refund-receipt via deres mail-engine, men siger ingenting
 // om at app-adgangen er trukket tilbage. Denne mail lukker det informations-gap.
 
-const REFUND_FROM = 'Træningslog <noreply@sorovibe.com>';
+const REFUND_FROM = 'Trace <noreply@sorovibe.com>';
 const REFUND_REPLY_TO = 'hello@sorovibe.com';
 
 function refundEmailTemplate(lang, isDispute) {
   const da = {
     subject: isDispute
-      ? 'Din betalingstvist er registreret — Træningslog-adgang sat på pause'
-      : 'Din refund er gennemført — Træningslog-adgang trukket tilbage',
+      ? 'Din betalingstvist er registreret — Trace-adgang sat på pause'
+      : 'Din refund er gennemført — Trace-adgang trukket tilbage',
     heading: isDispute ? 'Tvisten er registreret' : 'Refund gennemført',
     body: isDispute
       ? 'Vi har modtaget en betalingstvist på dit Lifetime-køb. Din premium-adgang (inkl. AI-måltidsscan) er sat på pause indtil tvisten er afsluttet. Hvis tvisten afgøres til din fordel, gen-aktiverer vi automatisk din adgang.'
@@ -190,8 +190,8 @@ function refundEmailTemplate(lang, isDispute) {
   };
   const en = {
     subject: isDispute
-      ? 'Your payment dispute is registered — Training log access paused'
-      : 'Your refund is complete — Training log access revoked',
+      ? 'Your payment dispute is registered — Trace access paused'
+      : 'Your refund is complete — Trace access revoked',
     heading: isDispute ? 'Dispute registered' : 'Refund complete',
     body: isDispute
       ? 'We have received a payment dispute for your Lifetime purchase. Your premium access (including AI meal scanning) is paused while the dispute is resolved. If the dispute is decided in your favor, we will automatically re-enable your access.'
@@ -203,7 +203,7 @@ function refundEmailTemplate(lang, isDispute) {
   };
   const t = lang === 'en' ? en : da;
   const text =
-    `${t.heading}\n\n${t.body}\n\n${t.repurchase}\n${t.repurchaseUrl}\n\n${t.questions}\n\n— Træningslog`;
+    `${t.heading}\n\n${t.body}\n\n${t.repurchase}\n${t.repurchaseUrl}\n\n${t.questions}\n\n— Trace`;
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${t.heading}</title></head>
 <body style="margin:0;padding:0;background:#f5f3ef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f5f3ef;padding:32px 16px;">
@@ -219,7 +219,7 @@ function refundEmailTemplate(lang, isDispute) {
 <p style="margin:28px 0 0;font-size:13px;line-height:1.6;color:#6b675e;">${t.questions}</p>
 </td></tr>
 </table>
-<p style="font-size:12px;line-height:1.6;color:#888580;margin:20px 0 0;text-align:center;">— Træningslog · Sorovibe</p>
+<p style="font-size:12px;line-height:1.6;color:#888580;margin:20px 0 0;text-align:center;">— Trace · Sorovibe</p>
 </td></tr>
 </table>
 </body></html>`;
