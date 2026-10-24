@@ -90,7 +90,7 @@
         {
           "@type": "Offer",
           "name": "Lifetime",
-          "price": "199",
+          "price": "449",
           "priceCurrency": "DKK",
           "category": "One-time purchase",
           "availability": "https://schema.org/InStock",
@@ -379,8 +379,8 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
         <span data-lang data-lang-id="en">Start free — 4-week trial →</span>
       </a>
       <a href="#early-supporter" class="btn-secondary">
-        <span data-lang class="on" data-lang-id="da">Lifetime <strong>199 kr</strong> ↓</span>
-        <span data-lang data-lang-id="en">Lifetime <strong>199 DKK</strong> ↓</span>
+        <span data-lang class="on" data-lang-id="da">Lifetime <strong>449 kr</strong> ↓</span>
+        <span data-lang data-lang-id="en">Lifetime <strong>449 DKK</strong> ↓</span>
       </a>
     </div>
     <p class="signup-note">
@@ -575,38 +575,30 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
       <span data-lang-block data-lang="en">Real numbers from my own program — week 5. I'm the app's first user.</span>
     </p>
 
-    <!-- PRICING — to bokse: Lifetime (deadline 1. aug 2026) + Medlemskab (recurring) -->
+    <!-- PRICING — to bokse: Lifetime (engangs) + Medlemskab (recurring) -->
     <div class="pricing-grid" id="early-supporter">
 
-      <!-- LIFETIME (Early Supporter — deadline 1. august 2026) -->
+      <!-- LIFETIME (engangsbetaling) -->
       <div class="pricing-box">
-        <span class="pricing-deadline">
-          <span data-lang class="on" data-lang-id="da">Founding-pris — stiger til 449 kr 1. august 2026</span>
-          <span data-lang data-lang-id="en">Founding price — rises to 449 DKK on August 1st, 2026</span>
-        </span>
         <span class="pricing-eyebrow">
-          <span data-lang class="on" data-lang-id="da">Early Supporter Lifetime</span>
-          <span data-lang data-lang-id="en">Early Supporter Lifetime</span>
+          <span data-lang class="on" data-lang-id="da">Lifetime</span>
+          <span data-lang data-lang-id="en">Lifetime</span>
         </span>
         <h3 class="pricing-title">
-          <span data-lang-block class="on" data-lang="da">199 kr — for altid</span>
-          <span data-lang-block data-lang="en">199 DKK <span style="font-size:0.55em;font-weight:500;color:var(--muted);white-space:nowrap;">(≈ €27 / $29)</span> — forever</span>
+          <span data-lang-block class="on" data-lang="da">449 kr — for altid</span>
+          <span data-lang-block data-lang="en">449 DKK <span style="font-size:0.55em;font-weight:500;color:var(--muted);white-space:nowrap;">(≈ €60 / $65)</span> — forever</span>
         </h3>
         <p class="pricing-sub">
           <span data-lang-block class="on" data-lang="da">Trace som den er i dag — workout, manuel makro-log, kropsmålinger, cardio og søvn — plus alle bug-fixes og forbedringer. Engangsbetaling, ingen abonnement, ingen ads. <strong>AI-måltidsscanning er ikke inkluderet</strong> (kræver Medlemskab).</span>
           <span data-lang-block data-lang="en">Trace as it is today — workout, manual macro log, body measurements, cardio and sleep — plus all bug fixes and improvements. One-time payment, no subscription, no ads. <strong>AI meal scanning is not included</strong> (requires Membership).</span>
         </p>
-        <div class="pricing-counter">
-          <span data-lang-block class="on" data-lang="da"><span class="lifetime-count">0</span> af 100 pladser solgt</span>
-          <span data-lang-block data-lang="en"><span class="lifetime-count">0</span> of 100 spots sold</span>
-        </div>
         <a href="https://buy.stripe.com/6oU5kw3SfbIgbBP6fj5wI00" class="pricing-btn" id="lifetimeBtn" rel="noopener noreferrer">
           <span data-lang class="on" data-lang-id="da">Køb lifetime →</span>
           <span data-lang data-lang-id="en">Buy lifetime →</span>
         </a>
         <p class="pricing-fine">
-          <span data-lang-block class="on" data-lang="da">Adgang aktiveres efter betaling. 14 dages fortrydelsesret (EU-forbrugerlov). Efter 1. august 2026 stiger lifetime-prisen til 449 kr.</span>
-          <span data-lang-block data-lang="en">Access activated after payment. 14-day right of withdrawal (EU consumer law). After August 1st, 2026, the lifetime price rises to 449 DKK.</span>
+          <span data-lang-block class="on" data-lang="da">Adgang aktiveres efter betaling. 14 dages fortrydelsesret (EU-forbrugerlov).</span>
+          <span data-lang-block data-lang="en">Access activated after payment. 14-day right of withdrawal (EU consumer law).</span>
         </p>
       </div>
 
@@ -927,11 +919,6 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
         <span data-lang data-lang-id="en">Privacy</span>
       </a>
     </div>
-    <div class="foot-badge" style="margin:14px 0 6px;">
-      <a href="https://smollaunch.com" target="_blank" rel="noopener">
-        <img src="https://smollaunch.com/badges/featured.svg" alt="Trace — Featured on Smol Launch" loading="lazy" width="250" height="60" />
-      </a>
-    </div>
     <div class="foot-copy">© 2026 Sorovibe</div>
   </div>
 </footer>
@@ -1065,19 +1052,6 @@ body{font-family:'Inter',-apple-system,'SF Pro Text','SF Pro Display',system-ui,
   function tt(da, en){
     return document.documentElement.lang === 'en' ? en : da;
   }
-
-  // Live lifetime-counter — fetcher antal solgte fra /api/lifetime-count.
-  // Erstatter "0"-placeholderen i .lifetime-count spans hvis fetch succeederer.
-  // Fejler stille: hvis fetch eller server fejler beholder vi "0" som fallback.
-  fetch('/api/lifetime-count', { headers: { 'Accept': 'application/json' } })
-    .then(r => r.ok ? r.json() : null)
-    .then(data => {
-      if (!data || typeof data.count !== 'number') return;
-      document.querySelectorAll('.lifetime-count').forEach(el => {
-        el.textContent = String(data.count);
-      });
-    })
-    .catch(() => {});
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
